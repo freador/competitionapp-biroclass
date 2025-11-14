@@ -1,0 +1,44 @@
+<%#
+  Badge component for status and labels
+  Usage: render "shared/badge", text: "Active", variant: "success"
+  Options:
+    - text: Badge text (required)
+    - variant: "default", "success", "warning", "danger", "info" (default: "default")
+    - size: "sm", "md", "lg" (default: "md")
+    - extra_classes: Additional CSS classes (optional)
+%>
+
+<%
+  locals = defined?(local_assigns) ? local_assigns : {}
+  variant = locals[:variant].presence || "default"
+  size = locals[:size].presence || "md"
+  extra_classes = locals[:extra_classes]
+
+  base_classes = "inline-flex items-center font-semibold rounded-full"
+
+  size_classes = {
+    "sm" => "px-2 py-0.5 text-xs",
+    "md" => "px-3 py-1 text-xs",
+    "lg" => "px-4 py-1.5 text-sm"
+  }
+
+  variant_classes = {
+    "default" => "bg-slate-100 text-slate-700",
+    "success" => "bg-emerald-50 text-emerald-700 border border-emerald-200",
+    "warning" => "bg-amber-50 text-amber-700 border border-amber-200",
+    "danger" => "bg-rose-50 text-rose-700 border border-rose-200",
+    "info" => "bg-indigo-50 text-indigo-700 border border-indigo-200",
+    "primary" => "bg-indigo-500 text-white shadow-sm"
+  }
+
+  badge_classes = [
+    base_classes,
+    size_classes.fetch(size, size_classes["md"]),
+    variant_classes.fetch(variant, variant_classes["default"]),
+    extra_classes
+  ].compact.join(" ")
+%>
+
+<span class="<%= badge_classes %>">
+  <%= text %>
+</span>

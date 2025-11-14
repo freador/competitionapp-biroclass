@@ -22,6 +22,7 @@ class ParticipantsController < ApplicationController
   # POST /participants or /participants.json
   def create
     @participant = Participant.new(participant_params)
+    @participant.invited_by ||= current_user
 
     respond_to do |format|
       if @participant.save
@@ -65,6 +66,6 @@ class ParticipantsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def participant_params
-      params.expect(participant: [ :name, :competition_id, :user_id ])
+      params.expect(participant: [ :name, :competition_id, :user_id, :email ])
     end
 end

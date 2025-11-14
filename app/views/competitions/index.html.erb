@@ -1,29 +1,84 @@
-<% content_for :title, "Competitions" %>
+<% content_for :title, "Minhas competições" %>
 
-<div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-  <% end %>
+<section class="space-y-10">
+  <header class="rounded-3xl border border-indigo-100 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-8 text-white shadow-xl">
+    <p class="text-sm uppercase tracking-[0.4em] text-white/80">Dashboard privado</p>
+    <div class="mt-4 flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <h1 class="text-3xl font-semibold">Olá, <%= current_user.name %>!</h1>
+        <p class="text-white/80">Crie competições, convide jurados e acompanhe o ranking em tempo real.</p>
+      </div>
+      <%= link_to "Iniciar nova competição", competition_builder_path, class: "inline-flex items-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-indigo-600 shadow-lg shadow-black/20 transition hover:bg-slate-100" %>
+    </div>
+  </header>
 
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Competitions</h1>
-    <%= link_to "New competition", new_competition_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
-  </div>
-
-  <div id="competitions" class="min-w-full divide-y divide-gray-200 space-y-5">
-    <% if @competitions.any? %>
-      <% @competitions.each do |competition| %>
-        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
-          <%= render competition %>
-          <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
-            <%= link_to "Show", competition, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= link_to "Edit", edit_competition_path(competition), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= button_to "Destroy", competition, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
-          </div>
+  <div class="grid gap-8 lg:grid-cols-2">
+    <article class="rounded-3xl border border-slate-100 bg-white p-6 shadow-xl">
+      <header class="flex items-center justify-between">
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-indigo-400">Sou owner</p>
+          <h2 class="text-2xl font-semibold text-slate-900">Competições que administro</h2>
         </div>
+        <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600"><%= @owned_competitions.size %></span>
+      </header>
+      <% if @owned_competitions.any? %>
+        <ul class="mt-6 space-y-4">
+          <% @owned_competitions.each do |competition| %>
+            <li class="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 shadow-sm">
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p class="text-sm uppercase tracking-wide text-slate-500"><%= competition.status %></p>
+                  <h3 class="text-xl font-semibold text-slate-900"><%= competition.title %></h3>
+                  <p class="text-sm text-slate-500"><%= truncate(competition.description.to_s, length: 120) %></p>
+                </div>
+                <div class="text-right text-sm text-slate-500">
+                  <p><strong><%= competition.participants.count %></strong> participante(s)</p>
+                  <p class="mt-1 text-xs">Atualizado em <%= l competition.updated_at, format: :short %></p>
+                </div>
+              </div>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <%= link_to "Dashboard", competition_path(competition), class: "inline-flex items-center rounded-full bg-indigo-600 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white" %>
+                <%= link_to "Editar", edit_competition_path(competition), class: "inline-flex items-center rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-slate-600" %>
+                <%= button_to "Excluir", competition_path(competition), method: :delete, form: { data: { turbo_confirm: "Tem certeza?" } }, class: "inline-flex items-center rounded-full border border-rose-200 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-rose-600" %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="mt-6 rounded-2xl border border-dashed border-slate-200 bg-white/50 p-6 text-center text-slate-500">Você ainda não criou competições.</p>
       <% end %>
-    <% else %>
-      <p class="text-center my-10">No competitions found.</p>
-    <% end %>
+    </article>
+
+    <article class="rounded-3xl border border-slate-100 bg-white p-6 shadow-xl">
+      <header class="flex items-center justify-between">
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-indigo-400">Sou jurado</p>
+          <h2 class="text-2xl font-semibold text-slate-900">Convites como jurado</h2>
+        </div>
+        <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600"><%= @judge_competitions.size %></span>
+      </header>
+      <% if @judge_competitions.any? %>
+        <ul class="mt-6 space-y-4">
+          <% @judge_competitions.each do |competition| %>
+            <li class="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 shadow-sm">
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p class="text-sm uppercase tracking-wide text-slate-500"><%= competition.status %> · Owner: <%= competition.owner.name %></p>
+                  <h3 class="text-xl font-semibold text-slate-900"><%= competition.title %></h3>
+                </div>
+                <div class="text-right text-xs text-slate-500">
+                  <p>Atualizado em <%= l competition.updated_at, format: :short %></p>
+                </div>
+              </div>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <%= link_to "Ver detalhes", competition_path(competition), class: "inline-flex items-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white" %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="mt-6 rounded-2xl border border-dashed border-slate-200 bg-white/50 p-6 text-center text-slate-500">Ainda não há convites de jurado.</p>
+      <% end %>
+    </article>
   </div>
-</div>
+</section>

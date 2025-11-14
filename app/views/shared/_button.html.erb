@@ -1,0 +1,92 @@
+<%
+  # Button component with variants
+  # Usage: <%= render "shared/button", text: "Click me", variant: "primary", href: some_path %>
+  # Options:
+  #   - text: Button text (required)
+  #   - variant: primary, secondary, danger, outline (default: primary)
+  #   - href: Link destination (optional, creates link instead of button)
+  #   - method: HTTP method for button_to (optional)
+  #   - confirm: Confirmation message (optional)
+  #   - icon: Heroicon name (optional, e.g., "plus", "trash", "pencil")
+  #   - icon_position: "left" or "right" (default: "left")
+  #   - size: "sm", "md", "lg" (default: "md")
+  #   - full_width: true/false (default: false)
+  #   - extra_classes: Additional CSS classes (optional)
+
+  variant ||= "primary"
+  size ||= "md"
+  icon_position ||= "left"
+  full_width ||= false
+
+  base_classes = "inline-flex items-center justify-center gap-2 font-semibold uppercase tracking-wide transition-all duration-200"
+
+  size_classes = {
+    "sm" => "px-3 py-1.5 text-xs rounded-full",
+    "md" => "px-4 py-2.5 text-xs rounded-full",
+    "lg" => "px-6 py-3 text-sm rounded-full"
+  }
+
+  variant_classes = {
+    "primary" => "bg-indigo-600 text-white shadow-lg shadow-indigo-500/30 hover:bg-indigo-500 hover:shadow-xl hover:shadow-indigo-500/40 active:scale-95",
+    "secondary" => "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-400 active:scale-95",
+    "danger" => "border border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100 hover:border-rose-300 active:scale-95",
+    "outline" => "border border-white/30 bg-transparent text-white hover:bg-white/20 active:scale-95",
+    "dark" => "bg-slate-900 text-white shadow-lg hover:bg-slate-800 active:scale-95"
+  }
+
+  width_class = full_width ? "w-full" : ""
+
+  button_classes = [
+    base_classes,
+    size_classes[size],
+    variant_classes[variant],
+    width_class,
+    extra_classes
+  ].compact.join(" ")
+%>
+
+<% if defined?(href) && href.present? %>
+  <%= link_to href, class: button_classes do %>
+    <% if defined?(icon) && icon.present? && icon_position == "left" %>
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <%= render partial: "shared/icons/#{icon}" %>
+      </svg>
+    <% end %>
+    <%= text %>
+    <% if defined?(icon) && icon.present? && icon_position == "right" %>
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <%= render partial: "shared/icons/#{icon}" %>
+      </svg>
+    <% end %>
+  <% end %>
+<% elsif defined?(method) && method.present? %>
+  <%= button_to text, href, method: method,
+      class: button_classes,
+      form: { data: { turbo_confirm: (defined?(confirm) ? confirm : nil) }.compact } do %>
+    <% if defined?(icon) && icon.present? && icon_position == "left" %>
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <%= render partial: "shared/icons/#{icon}" %>
+      </svg>
+    <% end %>
+    <%= text %>
+    <% if defined?(icon) && icon.present? && icon_position == "right" %>
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <%= render partial: "shared/icons/#{icon}" %>
+      </svg>
+    <% end %>
+  <% end %>
+<% else %>
+  <button type="<%= defined?(type) ? type : 'button' %>" class="<%= button_classes %>">
+    <% if defined?(icon) && icon.present? && icon_position == "left" %>
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <use href="#heroicon-<%= icon %>" />
+      </svg>
+    <% end %>
+    <%= text %>
+    <% if defined?(icon) && icon.present? && icon_position == "right" %>
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <use href="#heroicon-<%= icon %>" />
+      </svg>
+    <% end %>
+  </button>
+<% end %>

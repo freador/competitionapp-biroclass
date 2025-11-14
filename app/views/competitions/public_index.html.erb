@@ -1,7 +1,11 @@
 <section class="space-y-4">
-  <div class="flex items-center justify-between">
+  <div class="flex items-center justify-between gap-3">
     <h1 class="text-3xl font-semibold">Competições em Destaque</h1>
-    <%= link_to "Nova competição", new_competition_path, class: "rounded bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-500" %>
+    <% if user_signed_in? %>
+      <%= link_to "Criar competição", competition_builder_path, class: "rounded bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-500" %>
+    <% else %>
+      <%= link_to "Entrar para criar", new_session_path, class: "rounded border border-white/40 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10" %>
+    <% end %>
   </div>
 
   <% if @competitions.any? %>

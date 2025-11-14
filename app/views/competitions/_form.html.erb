@@ -1,13 +1,17 @@
-<% owners = User.order(:name) %>
 <% status_options = Competition.statuses.keys.map { |status| [status.titleize, status] } %>
-<% submit_disabled = owners.none? %>
 
-<%= form_with(model: competition, class: "contents space-y-6") do |form| %>
+<%= form_with(model: competition, class: "space-y-6") do |form| %>
   <% if competition.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
-      <h2><%= pluralize(competition.errors.count, "error") %> prohibited this competition from being saved:</h2>
-
-      <ul class="list-disc ml-6">
+    <div class="rounded-2xl border border-rose-200 bg-rose-50 p-4" role="alert">
+      <div class="flex items-center gap-2 mb-2">
+        <svg class="h-5 w-5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <use href="#heroicon-x" />
+        </svg>
+        <h3 class="text-sm font-semibold text-rose-900">
+          <%= pluralize(competition.errors.count, "erro") %> impediu que esta competição fosse salva:
+        </h3>
+      </div>
+      <ul class="ml-7 list-disc space-y-1 text-sm text-rose-700">
         <% competition.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -15,36 +19,53 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :title %>
-    <%= form.text_field :title, required: true, class: ["block shadow-sm rounded-xl border px-3 py-2 mt-2 w-full", {"border-slate-300 focus:outline-indigo-600": competition.errors[:title].none?, "border-red-400 focus:outline-red-600": competition.errors[:title].any?}] %>
-  </div>
+  <div class="rounded-3xl border border-slate-100 bg-white p-6 shadow-xl">
+    <div class="space-y-5">
+      <%= render "shared/form_field",
+          form: form,
+          field: :title,
+          label: "Título da Competição",
+          type: "text",
+          required: true,
+          autofocus: true,
+          placeholder: "Ex: Hackathon de Inovação 2024",
+          help_text: "Escolha um título claro e descritivo" %>
 
-  <div>
-    <%= form.label :description %>
-    <%= form.text_area :description, rows: 4, class: ["block shadow-sm rounded-xl border px-3 py-2 mt-2 w-full", {"border-slate-300 focus:outline-indigo-600": competition.errors[:description].none?, "border-red-400 focus:outline-red-600": competition.errors[:description].any?}] %>
-  </div>
+      <%= render "shared/form_field",
+          form: form,
+          field: :description,
+          label: "Descrição",
+          type: "textarea",
+          rows: 4,
+          placeholder: "Descreva os objetivos e contexto da competição...",
+          help_text: "Explique o propósito e contexto da competição" %>
 
-  <div>
-    <%= form.label :rules %>
-    <%= form.text_area :rules, rows: 4, class: ["block shadow-sm rounded-xl border px-3 py-2 mt-2 w-full", {"border-slate-300 focus:outline-indigo-600": competition.errors[:rules].none?, "border-red-400 focus:outline-red-600": competition.errors[:rules].any?}] %>
-  </div>
+      <%= render "shared/form_field",
+          form: form,
+          field: :rules,
+          label: "Regras da Competição",
+          type: "textarea",
+          rows: 6,
+          placeholder: "1. Cada participante pode submeter até 3 projetos
+2. Os projetos devem ser originais
+3. Prazo de submissão: 30 dias...",
+          help_text: "Defina as regras e critérios de avaliação" %>
 
-  <div>
-    <%= form.label :status, "Status da competição" %>
-    <%= form.select :status, status_options, { prompt: "Selecione o status" }, { required: true, class: ["block shadow-sm rounded-xl border px-3 py-2 mt-2 w-full", {"border-slate-300 focus:outline-indigo-600": competition.errors[:status].none?, "border-red-400 focus:outline-red-600": competition.errors[:status].any?}] } %>
-  </div>
+      <%= render "shared/form_field",
+          form: form,
+          field: :status,
+          label: "Status da Competição",
+          type: "select",
+          required: true,
+          options: status_options,
+          include_blank: "Selecione o status",
+          help_text: "Defina o estado atual da competição" %>
+    </div>
 
-  <div>
-    <%= form.label :owner_id, "Responsável" %>
-    <% if owners.any? %>
-      <%= form.collection_select :owner_id, owners, :id, :name, { prompt: "Selecione o usuário responsável" }, { required: true, class: ["block shadow-sm rounded-xl border px-3 py-2 mt-2 w-full", {"border-slate-300 focus:outline-indigo-600": competition.errors[:owner_id].none?, "border-red-400 focus:outline-red-600": competition.errors[:owner_id].any?}] } %>
-    <% else %>
-      <div class="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">Cadastre um usuário antes de criar uma competição.</div>
-    <% end %>
-  </div>
+    <div class="mt-6 flex flex-wrap gap-3 pt-6 border-t border-slate-200">
+      <%= form.submit (competition.new_record? ? "Criar Competição" : "Atualizar Competição"), class: "inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-indigo-500/30 transition-all duration-200 hover:bg-indigo-500 hover:shadow-xl active:scale-95" %>
 
-  <div class="inline">
-    <%= form.submit class: ["w-full sm:w-auto rounded-full px-5 py-2.5 text-sm font-semibold text-white inline-flex items-center justify-center shadow-lg transition", submit_disabled ? "bg-slate-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-500"], disabled: submit_disabled %>
+      <%= link_to "Cancelar", (competition.new_record? ? competitions_path : competition_path(competition)), class: "inline-flex items-center gap-2 rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:border-slate-400 active:scale-95" %>
+    </div>
   </div>
 <% end %>

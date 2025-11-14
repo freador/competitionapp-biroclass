@@ -1,29 +1,87 @@
 <% content_for :title, "Rankings" %>
 
-<div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-  <% end %>
+<%= render "shared/page_header",
+    title: "Rankings",
+    breadcrumb: "Classificações",
+    subtitle: "Visualize e gerencie todas as avaliações das competições",
+    action_text: "Nova avaliação",
+    action_url: new_ranking_path %>
 
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Rankings</h1>
-    <%= link_to "New ranking", new_ranking_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
-  </div>
-
-  <div id="rankings" class="min-w-full divide-y divide-gray-200 space-y-5">
-    <% if @rankings.any? %>
-      <% @rankings.each do |ranking| %>
-        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
-          <%= render ranking %>
-          <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
-            <%= link_to "Show", ranking, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= link_to "Edit", edit_ranking_path(ranking), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= button_to "Destroy", ranking, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+<% if @rankings.any? %>
+  <div class="mt-8 space-y-4">
+    <% @rankings.group_by(&:competition).each do |competition, comp_rankings| %>
+      <article class="rounded-3xl border border-slate-100 bg-white p-6 shadow-xl">
+        <header class="mb-6">
+          <div class="flex items-center gap-3">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-lg">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <use href="#heroicon-trophy" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-xl font-semibold text-slate-900"><%= competition.title %></h2>
+              <p class="text-sm text-slate-500"><%= comp_rankings.count %> avaliações</p>
+            </div>
           </div>
+        </header>
+
+        <div class="space-y-3">
+          <% comp_rankings.sort_by { |r| [-r.score.to_f, r.created_at] }.each_with_index do |ranking, index| %>
+            <div class="group rounded-2xl border border-slate-100 bg-slate-50/60 p-4 transition-all duration-200 hover:shadow-md hover:border-indigo-200 hover:bg-white">
+              <div class="flex items-center gap-4">
+                <!-- Position Badge -->
+                <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full <%= index == 0 ? 'bg-gradient-to-br from-amber-400 to-yellow-500' : index == 1 ? 'bg-gradient-to-br from-slate-300 to-slate-400' : index == 2 ? 'bg-gradient-to-br from-orange-400 to-orange-500' : 'bg-slate-200' %> font-bold text-white shadow-sm">
+                  <%= index + 1 %>
+                </div>
+
+                <!-- Participant Info -->
+                <div class="flex-1">
+                  <h3 class="text-lg font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors">
+                    <%= ranking.participant.name %>
+                  </h3>
+                  <p class="text-xs text-slate-500">
+                    Avaliado por <%= ranking.user.name %> · <%= l ranking.created_at, format: :short %>
+                  </p>
+                </div>
+
+                <!-- Score -->
+                <div class="text-right">
+                  <p class="text-3xl font-bold text-indigo-600"><%= ranking.score %></p>
+                  <p class="text-xs text-slate-500">pontos</p>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex gap-2">
+                  <%= link_to ranking_path(ranking), class: "flex h-8 w-8 items-center justify-center rounded-full bg-white border border-slate-200 text-slate-600 transition-all duration-200 hover:bg-indigo-50 hover:border-indigo-200 hover:text-indigo-600" do %>
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                      <use href="#heroicon-eye" />
+                    </svg>
+                  <% end %>
+                  <%= link_to edit_ranking_path(ranking), class: "flex h-8 w-8 items-center justify-center rounded-full bg-white border border-slate-200 text-slate-600 transition-all duration-200 hover:bg-slate-50 hover:border-slate-300" do %>
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                      <use href="#heroicon-pencil" />
+                    </svg>
+                  <% end %>
+                  <%= button_to ranking_path(ranking), method: :delete, form: { data: { turbo_confirm: "Tem certeza?" } }, class: "flex h-8 w-8 items-center justify-center rounded-full bg-white border border-rose-200 text-rose-600 transition-all duration-200 hover:bg-rose-50 hover:border-rose-300" do %>
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                      <use href="#heroicon-trash" />
+                    </svg>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
         </div>
-      <% end %>
-    <% else %>
-      <p class="text-center my-10">No rankings found.</p>
+      </article>
     <% end %>
   </div>
-</div>
+<% else %>
+  <div class="mt-8">
+    <%= render "shared/empty_state",
+        icon: "chart-bar",
+        title: "Nenhum ranking encontrado",
+        description: "Comece avaliando participantes para gerar rankings",
+        action_text: "Criar primeira avaliação",
+        action_url: new_ranking_path %>
+  </div>
+<% end %>

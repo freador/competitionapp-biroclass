@@ -1,0 +1,61 @@
+<%#
+  Page header component
+  Usage: render "shared/page_header",
+           title: "My Page",
+           subtitle: "Page description",
+           action_text: "New Item",
+           action_url: new_item_path
+  Options:
+    - title: Main heading (required)
+    - subtitle: Subtitle text (optional)
+    - breadcrumb: Breadcrumb text (optional)
+    - action_text: Primary action button text (optional)
+    - action_url: Primary action button URL (optional)
+    - variant: "default" or "gradient" (default: "default")
+    - extra_classes: Additional CSS classes (optional)
+%>
+
+<%
+  locals = defined?(local_assigns) ? local_assigns : {}
+  variant = locals[:variant].presence || "default"
+  extra_classes = locals[:extra_classes]
+
+  default_wrapper = "mb-6 flex flex-wrap items-center justify-between gap-4"
+  gradient_wrapper = "mb-8 rounded-3xl border border-indigo-100 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-8 text-white shadow-xl"
+  wrapper_classes = variant == "gradient" ? gradient_wrapper : default_wrapper
+  header_classes = [wrapper_classes, extra_classes].compact.join(" ")
+%>
+
+<% if variant == "gradient" %>
+  <header class="<%= header_classes %>">
+    <% if defined?(breadcrumb) && breadcrumb.present? %>
+      <p class="text-sm uppercase tracking-[0.4em] text-white/80"><%= breadcrumb %></p>
+    <% end %>
+    <div class="mt-4 flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <h1 class="text-3xl font-semibold text-white"><%= title %></h1>
+        <% if defined?(subtitle) && subtitle.present? %>
+          <p class="mt-2 text-white/80"><%= subtitle %></p>
+        <% end %>
+      </div>
+      <% if defined?(action_text) && action_text.present? && defined?(action_url) && action_url.present? %>
+        <%= link_to action_text, action_url, class: "inline-flex items-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-indigo-600 shadow-lg shadow-black/20 transition hover:bg-slate-100" %>
+      <% end %>
+    </div>
+  </header>
+<% else %>
+  <header class="<%= header_classes %>">
+    <div>
+      <% if defined?(breadcrumb) && breadcrumb.present? %>
+        <p class="text-xs uppercase tracking-[0.3em] text-indigo-400"><%= breadcrumb %></p>
+      <% end %>
+      <h1 class="text-3xl font-semibold text-slate-900"><%= title %></h1>
+      <% if defined?(subtitle) && subtitle.present? %>
+        <p class="mt-2 text-slate-500"><%= subtitle %></p>
+      <% end %>
+    </div>
+    <% if defined?(action_text) && action_text.present? && defined?(action_url) && action_url.present? %>
+      <%= link_to action_text, action_url, class: "inline-flex items-center gap-2 rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-all duration-200 hover:bg-indigo-500 hover:shadow-xl active:scale-95" %>
+    <% end %>
+  </header>
+<% end %>

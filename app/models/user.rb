@@ -5,6 +5,8 @@ class User < ApplicationRecord
 
   has_many :owned_competitions, class_name: "Competition", foreign_key: "owner_id", inverse_of: :owner, dependent: :nullify
   has_many :notes, foreign_key: "judge_id", inverse_of: :judge, dependent: :destroy
+  has_many :judge_assignments, class_name: "CompetitionJudge", dependent: :destroy
+  has_many :competitions_as_judge, through: :judge_assignments, source: :competition
 
   validates :name, :email, presence: true
   validates :email, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }

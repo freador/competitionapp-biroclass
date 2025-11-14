@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  resource :session, only: %i[new create destroy]
+
+  get "/invites/:token", to: "invites#show", as: :invite
+  patch "/invites/:token", to: "invites#update"
+  get "/competitions/public", to: "competitions#public_index", as: :public_competitions
+  get "/competitions/builder", to: "competitions/wizard#show", as: :competition_builder
+  patch "/competitions/builder", to: "competitions/wizard#update"
+
   resources :rankings
   resources :notes
   resources :participants
@@ -7,7 +15,9 @@ Rails.application.routes.draw do
   end
   resources :users
 
-  get "/competitions/public", to: "competitions#public_index", as: :public_competitions
+  get "/login", to: "sessions#new"
+  get "/signup", to: "users#new"
+  delete "/logout", to: "sessions#destroy"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

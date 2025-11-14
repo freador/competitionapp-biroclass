@@ -5,7 +5,8 @@ class Competition < ApplicationRecord
   has_many :participants, dependent: :destroy
   has_many :notes, dependent: :destroy
   has_many :rankings, -> { order(position: :asc) }, dependent: :destroy
-  has_many :judges, -> { distinct }, through: :notes, source: :judge
+  has_many :judge_assignments, class_name: "CompetitionJudge", dependent: :destroy
+  has_many :judges, through: :judge_assignments, source: :user
 
   validates :title, presence: true
   validates :owner, presence: true
@@ -14,7 +15,7 @@ class Competition < ApplicationRecord
   scope :publicly_visible, -> { where(status: %i[open closed]).order(updated_at: :desc) }
 
   def ready_to_publish?
-    participants.exists? && judges.exists?
+    participants.exists? && judge_assignments.exists?
   end
 
   def leaderboard_rows

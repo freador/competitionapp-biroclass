@@ -1,29 +1,80 @@
-<% content_for :title, "Participants" %>
+<% content_for :title, "Participantes" %>
 
-<div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-  <% end %>
+<%= render "shared/page_header",
+    title: "Participantes",
+    breadcrumb: "Gestão de participantes",
+    subtitle: "Gerencie todos os participantes das competições",
+    action_text: "Novo participante",
+    action_url: new_participant_path %>
 
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Participants</h1>
-    <%= link_to "New participant", new_participant_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
-  </div>
+<% if @participants.any? %>
+  <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <% @participants.each do |participant| %>
+      <article class="group rounded-2xl border border-slate-100 bg-slate-50/60 p-5 shadow-sm transition-all duration-200 hover:shadow-xl hover:border-indigo-200 hover:bg-white hover:scale-105">
+        <div class="mb-4">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-lg">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <use href="#heroicon-users" />
+              </svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-lg font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors">
+                <%= participant.name %>
+              </h3>
+            </div>
+          </div>
 
-  <div id="participants" class="min-w-full divide-y divide-gray-200 space-y-5">
-    <% if @participants.any? %>
-      <% @participants.each do |participant| %>
-        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
-          <%= render participant %>
-          <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
-            <%= link_to "Show", participant, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= link_to "Edit", edit_participant_path(participant), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= button_to "Destroy", participant, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+          <div class="space-y-1 text-sm text-slate-600">
+            <% if participant.competition.present? %>
+              <p class="flex items-center gap-1.5">
+                <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <use href="#heroicon-trophy" />
+                </svg>
+                <%= participant.competition.title %>
+              </p>
+            <% end %>
+            <% if participant.user.present? %>
+              <p class="flex items-center gap-1.5">
+                <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <use href="#heroicon-star" />
+                </svg>
+                Jurado: <%= participant.user.name %>
+              </p>
+            <% end %>
           </div>
         </div>
-      <% end %>
-    <% else %>
-      <p class="text-center my-10">No participants found.</p>
+
+        <div class="flex flex-wrap gap-2 pt-4 border-t border-slate-200">
+          <%= link_to participant_path(participant), class: "inline-flex items-center gap-1.5 rounded-full bg-indigo-600 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-white transition-all duration-200 hover:bg-indigo-500 active:scale-95" do %>
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <use href="#heroicon-eye" />
+            </svg>
+            Ver
+          <% end %>
+          <%= link_to edit_participant_path(participant), class: "inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:border-slate-400 active:scale-95" do %>
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <use href="#heroicon-pencil" />
+            </svg>
+            Editar
+          <% end %>
+          <%= button_to participant_path(participant), method: :delete, form: { data: { turbo_confirm: "Tem certeza que deseja excluir este participante?" } }, class: "inline-flex items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-rose-600 transition-all duration-200 hover:bg-rose-100 hover:border-rose-300 active:scale-95" do %>
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <use href="#heroicon-trash" />
+            </svg>
+            Excluir
+          <% end %>
+        </div>
+      </article>
     <% end %>
   </div>
-</div>
+<% else %>
+  <div class="mt-8">
+    <%= render "shared/empty_state",
+        icon: "users",
+        title: "Nenhum participante encontrado",
+        description: "Comece adicionando o primeiro participante à competição",
+        action_text: "Adicionar participante",
+        action_url: new_participant_path %>
+  </div>
+<% end %>

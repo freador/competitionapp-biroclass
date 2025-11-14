@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_before_action :authenticate_user!, only: %i[ new create ]
   before_action :set_user, only: %i[ show edit update destroy ]
 
   # GET /users or /users.json
@@ -25,8 +26,15 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: "User was successfully created." }
-        format.json { render :show, status: :created, location: @user }
+        if user_signed_in?
+          format.html { redirect_to @user, notice: "User was successfully created." }
+          format.json { render :show, status: :created, location: @user }
+        else
+          reset_session
+          session[:user_id] = @user.id
+          format.html { redirect_to after_sign_in_path, notice: "Conta criada! Bem-vindo ao Competition App." }
+          format.json { render :show, status: :created, location: @user }
+        end
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -65,7 +73,10 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      permitted = params.expect(user: [ :name, :email, :role, :invitation_token, :password, :password_confirmation ])
+      keys = [ :name, :email, :password, :password_confirmation ]
+      keys += [ :role, :invitation_token ] if user_signed_in?
+      permitted = params.expect(user: keys)
+      permitted[:role] = permitted[:role].presence || "user"
       if permitted[:password].blank?
         permitted.delete(:password)
         permitted.delete(:password_confirmation)

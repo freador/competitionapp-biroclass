@@ -10,9 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_14_171621) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_14_180840) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "competition_judges", force: :cascade do |t|
+    t.bigint "competition_id", null: false
+    t.bigint "user_id"
+    t.integer "status", default: 0, null: false
+    t.string "invitation_token", null: false
+    t.bigint "invited_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "email"
+    t.index ["competition_id", "user_id"], name: "index_competition_judges_on_competition_id_and_user_id", unique: true
+    t.index ["competition_id"], name: "index_competition_judges_on_competition_id"
+    t.index ["email"], name: "index_competition_judges_on_email"
+    t.index ["invitation_token"], name: "index_competition_judges_on_invitation_token", unique: true
+    t.index ["user_id"], name: "index_competition_judges_on_user_id"
+  end
 
   create_table "competitions", force: :cascade do |t|
     t.string "title", null: false
@@ -46,8 +62,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_14_171621) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "invitation_token", null: false
+    t.bigint "invited_by_id"
+    t.string "email"
     t.index ["competition_id", "name"], name: "index_participants_on_competition_id_and_name", unique: true
     t.index ["competition_id"], name: "index_participants_on_competition_id"
+    t.index ["invitation_token"], name: "index_participants_on_invitation_token", unique: true
+    t.index ["invited_by_id"], name: "index_participants_on_invited_by_id"
     t.index ["user_id"], name: "index_participants_on_user_id"
   end
 
@@ -75,12 +96,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_14_171621) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "competition_judges", "competitions"
+  add_foreign_key "competition_judges", "users"
+  add_foreign_key "competition_judges", "users", column: "invited_by_id"
   add_foreign_key "competitions", "users", column: "owner_id"
   add_foreign_key "notes", "competitions"
   add_foreign_key "notes", "participants"
   add_foreign_key "notes", "users", column: "judge_id"
   add_foreign_key "participants", "competitions"
   add_foreign_key "participants", "users"
+  add_foreign_key "participants", "users", column: "invited_by_id"
   add_foreign_key "rankings", "competitions"
   add_foreign_key "rankings", "participants"
 end

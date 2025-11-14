@@ -1,0 +1,112 @@
+<%#
+  Form field component with consistent styling
+  Usage: render "shared/form_field",
+           form: form,
+           field: :email,
+           label: "Email",
+           type: "email",
+           required: true,
+           help_text: "We'll never share your email"
+  Options:
+    - form: form builder object (required)
+    - field: field name symbol (required)
+    - label: label text (optional, defaults to humanized field)
+    - type: "text", "email", "password", "number", "textarea", "select" (default: "text")
+    - placeholder: placeholder text (optional)
+    - required: true/false (default: false)
+    - autofocus: true/false (default: false)
+    - help_text: helper copy below the field (optional)
+    - options: options array for select fields (default: [])
+    - include_blank: include blank option for selects (default: false)
+    - extra_classes: extra CSS classes (optional)
+    - rows: textarea rows (default: 4)
+%>
+
+<%
+  locals = defined?(local_assigns) ? local_assigns : {}
+  form = locals.fetch(:form)
+  field = locals.fetch(:field)
+  label_text = locals[:label].present? ? locals[:label] : field.to_s.humanize
+  type = locals[:type].presence || "text"
+  required = locals.key?(:required) ? locals[:required] : false
+  autofocus = locals.key?(:autofocus) ? locals[:autofocus] : false
+  rows = locals[:rows].presence || 4
+  placeholder = locals[:placeholder]
+  help_text = locals[:help_text]
+  options = locals[:options] || []
+  include_blank = locals.key?(:include_blank) ? locals[:include_blank] : false
+  extra_classes = locals[:extra_classes]
+
+  model = form.object
+  has_errors = model.errors[field].any?
+
+  base_input_classes = "mt-2 w-full rounded-2xl border px-4 py-2.5 text-slate-900 shadow-sm transition-all duration-200"
+  normal_classes = "border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+  error_classes = "border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 bg-rose-50"
+
+  input_classes = [
+    base_input_classes,
+    has_errors ? error_classes : normal_classes,
+    extra_classes
+  ].compact.join(" ")
+%>
+
+<div class="space-y-1">
+  <%= form.label field, label_text, class: "text-sm font-semibold text-slate-700" %>
+
+  <% if type == "textarea" %>
+    <%= form.text_area field,
+        class: input_classes,
+        placeholder: placeholder,
+        required: required,
+        autofocus: autofocus,
+        rows: rows,
+        aria: { describedby: "#{field}_help #{field}_error" } %>
+  <% elsif type == "select" %>
+    <%= form.select field,
+        options,
+        { include_blank: include_blank },
+        class: input_classes,
+        required: required,
+        autofocus: autofocus,
+        aria: { describedby: "#{field}_help #{field}_error" } %>
+  <% elsif type == "email" %>
+    <%= form.email_field field,
+        class: input_classes,
+        placeholder: placeholder,
+        required: required,
+        autofocus: autofocus,
+        aria: { describedby: "#{field}_help #{field}_error" } %>
+  <% elsif type == "password" %>
+    <%= form.password_field field,
+        class: input_classes,
+        placeholder: placeholder,
+        required: required,
+        autofocus: autofocus,
+        aria: { describedby: "#{field}_help #{field}_error" } %>
+  <% elsif type == "number" %>
+    <%= form.number_field field,
+        class: input_classes,
+        placeholder: placeholder,
+        required: required,
+        autofocus: autofocus,
+        aria: { describedby: "#{field}_help #{field}_error" } %>
+  <% else %>
+    <%= form.text_field field,
+        class: input_classes,
+        placeholder: placeholder,
+        required: required,
+        autofocus: autofocus,
+        aria: { describedby: "#{field}_help #{field}_error" } %>
+  <% end %>
+
+  <% if help_text.present? %>
+    <p id="<%= field %>_help" class="text-xs text-slate-500 mt-1"><%= help_text %></p>
+  <% end %>
+
+  <% if has_errors %>
+    <p id="<%= field %>_error" class="text-xs text-rose-600 mt-1 font-medium" role="alert">
+      <%= model.errors[field].to_sentence %>
+    </p>
+  <% end %>
+</div>

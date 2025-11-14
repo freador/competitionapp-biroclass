@@ -1,9 +1,36 @@
-<% content_for :title, "New user" %>
+<% content_for :title, user_signed_in? ? "Novo usuário" : "Criar conta" %>
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New user</h1>
+<% if user_signed_in? %>
+  <%= render "shared/page_header",
+      title: "Novo Usuário",
+      breadcrumb: "Adicionar usuário",
+      subtitle: "Crie um novo usuário no sistema" %>
 
-  <%= render "form", user: @user %>
+  <div class="mt-8">
+    <%= render "form", user: @user %>
+  </div>
 
-  <%= link_to "Back to users", users_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-</div>
+  <div class="mt-6">
+    <%= link_to users_path, class: "inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors" do %>
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <use href="#heroicon-arrow-right" />
+      </svg>
+      Voltar para usuários
+    <% end %>
+  </div>
+<% else %>
+  <section class="mx-auto max-w-lg space-y-6">
+    <header class="text-center">
+      <p class="text-sm uppercase tracking-[0.3em] text-indigo-400">Comece agora</p>
+      <h1 class="mt-2 text-3xl font-semibold text-slate-900">Crie sua conta</h1>
+      <p class="mt-2 text-slate-500">Cadastre-se gratuitamente para criar e compartilhar competições.</p>
+    </header>
+
+    <%= render "form", user: @user %>
+
+    <p class="mt-4 text-center text-sm text-slate-500">
+      Já possui conta?
+      <%= link_to "Entre aqui", new_session_path, class: "font-semibold text-indigo-600 hover:text-indigo-500 transition-colors" %>
+    </p>
+  </section>
+<% end %>

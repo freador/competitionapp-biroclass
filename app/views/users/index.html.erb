@@ -1,29 +1,73 @@
-<% content_for :title, "Users" %>
+<% content_for :title, "Usuários" %>
 
-<div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-  <% end %>
+<%= render "shared/page_header",
+    title: "Usuários",
+    breadcrumb: "Gestão de usuários",
+    subtitle: "Gerencie todos os usuários do sistema",
+    action_text: "Novo usuário",
+    action_url: new_user_path %>
 
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Users</h1>
-    <%= link_to "New user", new_user_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
-  </div>
+<% if @users.any? %>
+  <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <% @users.each do |user| %>
+      <article class="group rounded-2xl border border-slate-100 bg-slate-50/60 p-5 shadow-sm transition-all duration-200 hover:shadow-xl hover:border-indigo-200 hover:bg-white hover:scale-105">
+        <div class="mb-4">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-lg">
+              <span class="text-lg font-bold"><%= user.name[0].upcase %></span>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-lg font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors">
+                <%= user.name %>
+              </h3>
+              <p class="text-sm text-slate-500"><%= user.email %></p>
+            </div>
+          </div>
 
-  <div id="users" class="min-w-full divide-y divide-gray-200 space-y-5">
-    <% if @users.any? %>
-      <% @users.each do |user| %>
-        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
-          <%= render user %>
-          <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
-            <%= link_to "Show", user, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= link_to "Edit", edit_user_path(user), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= button_to "Destroy", user, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+          <div class="flex items-center gap-2">
+            <% if user.role.present? %>
+              <% role_variant = case user.role
+                  when "admin" then "primary"
+                  when "judge", "jurado" then "info"
+                  else "default"
+                end %>
+              <%= render "shared/badge", text: user.role.titleize, variant: role_variant, size: "sm" %>
+            <% end %>
           </div>
         </div>
-      <% end %>
-    <% else %>
-      <p class="text-center my-10">No users found.</p>
+
+        <div class="flex flex-wrap gap-2 pt-4 border-t border-slate-200">
+          <%= link_to user_path(user), class: "inline-flex items-center gap-1.5 rounded-full bg-indigo-600 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-white transition-all duration-200 hover:bg-indigo-500 active:scale-95" do %>
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <use href="#heroicon-eye" />
+            </svg>
+            Ver
+          <% end %>
+          <%= link_to edit_user_path(user), class: "inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:border-slate-400 active:scale-95" do %>
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <use href="#heroicon-pencil" />
+            </svg>
+            Editar
+          <% end %>
+          <% unless user == current_user %>
+            <%= button_to user_path(user), method: :delete, form: { data: { turbo_confirm: "Tem certeza que deseja excluir este usuário?" } }, class: "inline-flex items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-rose-600 transition-all duration-200 hover:bg-rose-100 hover:border-rose-300 active:scale-95" do %>
+              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <use href="#heroicon-trash" />
+              </svg>
+              Excluir
+            <% end %>
+          <% end %>
+        </div>
+      </article>
     <% end %>
   </div>
-</div>
+<% else %>
+  <div class="mt-8">
+    <%= render "shared/empty_state",
+        icon: "users",
+        title: "Nenhum usuário encontrado",
+        description: "Comece adicionando o primeiro usuário ao sistema",
+        action_text: "Adicionar usuário",
+        action_url: new_user_path %>
+  </div>
+<% end %>

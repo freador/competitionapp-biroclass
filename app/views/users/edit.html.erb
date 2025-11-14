@@ -1,10 +1,25 @@
-<% content_for :title, "Editing user" %>
+<% content_for :title, "Editar Usuário" %>
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editing user</h1>
+<%= render "shared/page_header",
+    title: "Editar Usuário",
+    breadcrumb: "Atualizar dados",
+    subtitle: @user.name %>
 
+<div class="mt-8">
   <%= render "form", user: @user %>
+</div>
 
-  <%= link_to "Show this user", @user, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= link_to "Back to users", users_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+<div class="mt-6 flex flex-wrap gap-4">
+  <%= link_to user_path(@user), class: "inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors" do %>
+    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <use href="#heroicon-eye" />
+    </svg>
+    Ver usuário
+  <% end %>
+  <%= link_to users_path, class: "inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors" do %>
+    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <use href="#heroicon-arrow-right" />
+    </svg>
+    Voltar para usuários
+  <% end %>
 </div>

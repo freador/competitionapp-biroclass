@@ -1,9 +1,19 @@
-<% content_for :title, "New competition" %>
+<% content_for :title, "Nova Competição" %>
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New competition</h1>
+<%= render "shared/page_header",
+    title: "Nova Competição",
+    breadcrumb: "Criar competição",
+    subtitle: "Preencha os dados para criar uma nova competição" %>
 
+<div class="mt-8">
   <%= render "form", competition: @competition %>
+</div>
 
-  <%= link_to "Back to competitions", competitions_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+<div class="mt-6">
+  <%= link_to competitions_path, class: "inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors" do %>
+    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <use href="#heroicon-arrow-right" />
+    </svg>
+    Voltar para competições
+  <% end %>
 </div>

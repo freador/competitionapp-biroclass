@@ -1,9 +1,19 @@
-<% content_for :title, "New ranking" %>
+<% content_for :title, "Nova Avaliação" %>
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New ranking</h1>
+<%= render "shared/page_header",
+    title: "Nova Avaliação",
+    breadcrumb: "Criar ranking",
+    subtitle: "Preencha os dados para criar uma nova avaliação de participante" %>
 
+<div class="mt-8">
   <%= render "form", ranking: @ranking %>
+</div>
 
-  <%= link_to "Back to rankings", rankings_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+<div class="mt-6">
+  <%= link_to rankings_path, class: "inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors" do %>
+    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <use href="#heroicon-arrow-right" />
+    </svg>
+    Voltar para rankings
+  <% end %>
 </div>

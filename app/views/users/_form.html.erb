@@ -1,9 +1,15 @@
-<%= form_with(model: user, class: "contents") do |form| %>
+<%= form_with(model: user, class: "space-y-6") do |form| %>
   <% if user.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
-      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-      <ul class="list-disc ml-6">
+    <div class="rounded-2xl border border-rose-200 bg-rose-50 p-4" role="alert">
+      <div class="flex items-center gap-2 mb-2">
+        <svg class="h-5 w-5 text-rose-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <use href="#heroicon-x" />
+        </svg>
+        <h3 class="text-sm font-semibold text-rose-900">
+          <%= pluralize(user.errors.count, "erro") %> impediu que este usuário fosse salvo:
+        </h3>
+      </div>
+      <ul class="ml-7 list-disc space-y-1 text-sm text-rose-700">
         <% user.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -11,37 +17,74 @@
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :name %>
-    <%= form.text_field :name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": user.errors[:name].none?, "border-red-400 focus:outline-red-600": user.errors[:name].any?}] %>
-  </div>
+  <div class="rounded-3xl border border-slate-100 bg-white p-6 shadow-xl">
+    <div class="space-y-5">
+      <%= render "shared/form_field",
+          form: form,
+          field: :name,
+          label: "Nome Completo",
+          type: "text",
+          required: true,
+          autofocus: true,
+          placeholder: "João Silva",
+          help_text: "Nome completo do usuário" %>
 
-  <div class="my-5">
-    <%= form.label :email %>
-    <%= form.text_field :email, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": user.errors[:email].none?, "border-red-400 focus:outline-red-600": user.errors[:email].any?}] %>
-  </div>
+      <%= render "shared/form_field",
+          form: form,
+          field: :email,
+          label: "Email",
+          type: "email",
+          required: true,
+          placeholder: "joao@exemplo.com",
+          help_text: "Email único para acesso ao sistema" %>
 
-  <div class="my-5">
-    <%= form.label :role %>
-    <%= form.select :role, User.roles.keys.map { |role| [role.titleize, role] }, {}, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": user.errors[:role].none?, "border-red-400 focus:outline-red-600": user.errors[:role].any?}] %>
-  </div>
+      <% if user_signed_in? %>
+        <%= render "shared/form_field",
+            form: form,
+            field: :role,
+            label: "Função no Sistema",
+            type: "select",
+            options: User.roles.keys.map { |role| [role.titleize, role] },
+            help_text: "Defina o nível de acesso do usuário" %>
 
-  <div class="my-5">
-    <%= form.label :invitation_token %>
-    <%= form.text_field :invitation_token, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": user.errors[:invitation_token].none?, "border-red-400 focus:outline-red-600": user.errors[:invitation_token].any?}] %>
-  </div>
+        <%= render "shared/form_field",
+            form: form,
+            field: :invitation_token,
+            label: "Token de Convite (opcional)",
+            type: "text",
+            placeholder: "abc123def456",
+            help_text: "Token único para convites de competição" %>
+      <% end %>
 
-  <div class="my-5">
-    <%= form.label :password %>
-    <%= form.password_field :password, autocomplete: "new-password", class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": user.errors[:password].none?, "border-red-400 focus:outline-red-600": user.errors[:password].any?}] %>
-  </div>
+      <div class="rounded-2xl border border-indigo-100 bg-indigo-50/50 p-4">
+        <p class="text-xs font-semibold uppercase tracking-wide text-indigo-900 mb-4">Senha</p>
 
-  <div class="my-5">
-    <%= form.label :password_confirmation %>
-    <%= form.password_field :password_confirmation, autocomplete: "new-password", class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": user.errors[:password_confirmation].none?, "border-red-400 focus:outline-red-600": user.errors[:password_confirmation].any?}] %>
-  </div>
+        <div class="space-y-4">
+          <%= render "shared/form_field",
+              form: form,
+              field: :password,
+              label: "Senha",
+              type: "password",
+              required: user.new_record?,
+              placeholder: "••••••••",
+              help_text: (user.new_record? ? "Mínimo de 6 caracteres" : "Deixe em branco para manter a senha atual") %>
 
-  <div class="inline">
-    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+          <%= render "shared/form_field",
+              form: form,
+              field: :password_confirmation,
+              label: "Confirmar Senha",
+              type: "password",
+              required: user.new_record?,
+              placeholder: "••••••••",
+              help_text: "Digite a senha novamente para confirmar" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 flex flex-wrap gap-3 pt-6 border-t border-slate-200">
+      <%= form.submit (user.new_record? ? "Criar Usuário" : "Atualizar Usuário"), class: "inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-indigo-500/30 transition-all duration-200 hover:bg-indigo-500 hover:shadow-xl active:scale-95" %>
+
+      <%= link_to "Cancelar", (user.new_record? ? users_path : user_path(user)), class: "inline-flex items-center gap-2 rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:border-slate-400 active:scale-95" %>
+    </div>
   </div>
 <% end %>
