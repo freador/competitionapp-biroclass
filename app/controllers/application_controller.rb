@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   before_action :authenticate_user!
+  before_action :load_pending_judging_competitions
 
   helper_method :current_user, :user_signed_in?
 
@@ -33,5 +34,23 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path
     session.delete(:return_to) || competitions_path
+  end
+
+  def load_pending_judging_competitions
+    return unless user_signed_in?
+
+    dismissed_ids = Array(session[:dismissed_judging_competitions])
+    @pending_judging_competitions =
+      current_user.judge_assignments.accepted.includes(:competition).map(&:competition).compact.select do |competition|
+        next false if dismissed_ids.include?(competition.id)
+
+        competition.open? && competition.needs_scores_from?(current_user)
+      end
+  end
+
+  def dismiss_judging_prompt_for(competition)
+    session[:dismissed_judging_competitions] ||= []
+    session[:dismissed_judging_competitions] << competition.id
+    session[:dismissed_judging_competitions].uniq!
   end
 end

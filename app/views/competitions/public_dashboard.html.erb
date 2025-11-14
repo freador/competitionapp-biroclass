@@ -19,41 +19,10 @@
     </dl>
   </header>
 
-  <article class="rounded border border-slate-200 bg-white p-6 shadow-sm">
-    <h2 class="text-2xl font-semibold">Ranking ao vivo</h2>
-    <% if @leaderboard.any? %>
-      <div class="mt-4 overflow-x-auto">
-        <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
-          <thead>
-            <tr class="text-xs uppercase tracking-widest text-slate-500">
-              <th class="px-3 py-2">Posição</th>
-              <th class="px-3 py-2">Participante</th>
-              <th class="px-3 py-2">Pontuação</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100">
-            <% @leaderboard.each_with_index do |row, index| %>
-              <% score = row.respond_to?(:total_score) ? row.total_score : row.try(:average_score) %>
-              <% position = row.respond_to?(:position) ? row.position : index + 1 %>
-              <% participant = row.respond_to?(:participant) ? row.participant : row %>
-              <tr>
-                <td class="px-3 py-2 font-semibold text-slate-700"><%= position %>º</td>
-                <td class="px-3 py-2">
-                  <p class="font-semibold text-slate-800"><%= participant.display_name %></p>
-                  <% if participant.user&.email %>
-                    <p class="text-xs text-slate-500"><%= participant.user.email %></p>
-                  <% end %>
-                </td>
-                <td class="px-3 py-2 font-mono text-lg text-indigo-600"><%= number_with_precision(score, precision: 2) %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    <% else %>
-      <p class="mt-3 text-slate-600">Sem notas ainda. Convide jurados para começar.</p>
-    <% end %>
-  </article>
+<%= turbo_stream_from [:competition, @competition, :leaderboard] %>
+<div id="<%= dom_id(@competition, :leaderboard) %>">
+  <%= render "competitions/leaderboard", competition: @competition, leaderboard: @leaderboard %>
+</div>
 
   <article class="rounded border border-slate-200 bg-white p-6 shadow-sm">
     <h2 class="text-2xl font-semibold">Participantes</h2>

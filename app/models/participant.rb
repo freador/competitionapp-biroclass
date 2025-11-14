@@ -19,10 +19,6 @@ class Participant < ApplicationRecord
     user&.name.presence || name
   end
 
-  def invitation_path
-    Rails.application.routes.url_helpers.invite_path(token: invitation_token)
-  end
-
   private
 
   def refresh_competition_rankings

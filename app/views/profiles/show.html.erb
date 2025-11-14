@@ -1,0 +1,98 @@
+<% content_for :title, "Meu Perfil" %>
+
+<%= render "shared/page_header",
+    title: "Meu Perfil",
+    breadcrumb: "Configurações de conta",
+    subtitle: @user.name %>
+
+<div class="mt-8 space-y-6">
+  <article class="rounded-3xl border border-slate-100 bg-white p-6 shadow-xl">
+    <div class="flex items-start gap-6">
+      <div class="flex h-24 w-24 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white shadow-2xl">
+        <span class="text-4xl font-bold"><%= @user.name[0].upcase %></span>
+      </div>
+
+      <div class="flex-1 space-y-4">
+        <div>
+          <h2 class="text-3xl font-bold text-slate-900"><%= @user.name %></h2>
+          <p class="text-lg text-slate-500"><%= @user.email %></p>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          <% if @user.role.present? %>
+            <% role_variant = case @user.role
+                when "admin" then "primary"
+                when "judge", "jurado" then "info"
+                else "default"
+              end %>
+            <%= render "shared/badge", text: @user.role.titleize, variant: role_variant %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 flex flex-wrap gap-3 pt-6 border-t border-slate-200">
+      <%= link_to edit_profile_path, class: "inline-flex items-center gap-2 rounded-full border border-slate-300 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:border-slate-400 active:scale-95" do %>
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <use href="#heroicon-pencil" />
+        </svg>
+        Atualizar perfil
+      <% end %>
+      <%= link_to competitions_path, class: "inline-flex items-center gap-2 rounded-full border border-slate-300 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:border-slate-400 active:scale-95" do %>
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <use href="#heroicon-arrow-right" />
+        </svg>
+        Voltar para competições
+      <% end %>
+    </div>
+  </article>
+
+  <div class="grid gap-6 md:grid-cols-2">
+    <% if @user.owned_competitions.any? %>
+      <article class="rounded-3xl border border-slate-100 bg-white p-6 shadow-xl">
+        <header class="mb-4 flex items-center justify-between">
+          <div>
+            <p class="text-xs uppercase tracking-[0.3em] text-indigo-400">Organizador</p>
+            <h2 class="text-xl font-semibold text-slate-900">Competições Criadas</h2>
+          </div>
+          <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600">
+            <%= @user.owned_competitions.count %>
+          </span>
+        </header>
+        <div class="space-y-2">
+          <% @user.owned_competitions.limit(5).each do |competition| %>
+            <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3 text-sm">
+              <p class="font-semibold text-slate-900"><%= competition.title %></p>
+              <p class="text-xs text-slate-500"><%= competition.participants.count %> participantes</p>
+            </div>
+          <% end %>
+        </div>
+      </article>
+    <% end %>
+
+    <% if @user.notes.any? %>
+      <article class="rounded-3xl border border-slate-100 bg-white p-6 shadow-xl">
+        <header class="mb-4 flex items-center justify-between">
+          <div>
+            <p class="text-xs uppercase tracking-[0.3em] text-purple-400">Jurado</p>
+            <h2 class="text-xl font-semibold text-slate-900">Avaliações Realizadas</h2>
+          </div>
+          <span class="rounded-full bg-purple-50 px-3 py-1 text-xs font-semibold text-purple-600">
+            <%= @user.notes.count %>
+          </span>
+        </header>
+        <div class="space-y-2">
+          <% @user.notes.includes(:participant, :competition).limit(5).each do |note| %>
+            <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3 text-sm">
+              <p class="font-semibold text-slate-900"><%= note.participant.name %></p>
+              <div class="mt-1 flex items-center justify-between">
+                <p class="text-xs text-slate-500"><%= note.competition.title %></p>
+                <p class="font-bold text-indigo-600"><%= note.score %> pts</p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </article>
+    <% end %>
+  </div>
+</div>

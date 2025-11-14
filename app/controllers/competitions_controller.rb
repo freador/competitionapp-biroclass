@@ -1,8 +1,9 @@
 class CompetitionsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[ public_index public_dashboard ]
 
-  before_action :set_competition, only: %i[ show edit update destroy public_dashboard ]
-  before_action :authorize_owner!, only: %i[ edit update destroy ]
+  before_action :set_competition, only: %i[ show edit update destroy public_dashboard start close judging ]
+  before_action :authorize_owner!, only: %i[ edit update destroy start close ]
+  before_action :authorize_judge_access!, only: :judging
 
   # GET /competitions or /competitions.json
   def index
@@ -27,7 +28,6 @@ class CompetitionsController < ApplicationController
   def show
     if @competition.owner == current_user
       @judge_invites = @competition.judge_assignments.order(created_at: :desc)
-      @participant_invites = @competition.participants.order(:name)
     end
   end
 
@@ -78,6 +78,46 @@ class CompetitionsController < ApplicationController
     end
   end
 
+  def start
+    unless @competition.ready_to_publish?
+      redirect_to @competition, alert: "Adicione ao menos um jurado e um participante antes de abrir a competição." and return
+    end
+    if @competition.rules.blank?
+      redirect_to edit_competition_path(@competition), alert: "Defina as regras da competição antes de abri-la." and return
+    end
+    if @competition.open?
+      redirect_to @competition, notice: "A competição já está aberta." and return
+    end
+
+    if @competition.update(status: :open)
+      redirect_to @competition, notice: "Competição iniciada! Convide os jurados para começarem as notas."
+    else
+      redirect_to edit_competition_path(@competition), alert: @competition.errors.full_messages.to_sentence
+    end
+  end
+
+  def close
+    if @competition.closed?
+      redirect_to @competition, notice: "A competição já está encerrada." and return
+    end
+
+    if @competition.update(status: :closed)
+      redirect_to @competition, notice: "Competição encerrada. Novas notas não serão mais aceitas."
+    else
+      redirect_to @competition, alert: "Não foi possível encerrar a competição. Tente novamente."
+    end
+  end
+
+  def judging
+    unless @competition.open?
+      redirect_to @competition, alert: "A competição precisa estar aberta para receber notas." and return
+    end
+
+    dismiss_judging_prompt_for(@competition)
+    @participants = @competition.participants.includes(:user).order(:name)
+    @participant_notes = current_user.notes.where(competition: @competition).index_by(&:participant_id)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_competition
@@ -93,5 +133,12 @@ class CompetitionsController < ApplicationController
       return if @competition.owner == current_user
 
       redirect_to competitions_path, alert: "Acesso restrito ao responsável pela competição."
+    end
+
+    def authorize_judge_access!
+      return if @competition.owner == current_user
+      return if @competition.judge_assignments.accepted.find_by(user: current_user)
+
+      redirect_to competitions_path, alert: "Apenas jurados confirmados podem acessar esse painel."
     end
 end

@@ -71,6 +71,9 @@
                 </div>
               </div>
               <div class="mt-4 flex flex-wrap gap-2">
+                <% if competition.open? && competition.judges.include?(current_user) %>
+                  <%= link_to "Painel de notas", judging_competition_path(competition), class: "inline-flex items-center rounded-full bg-indigo-600 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white" %>
+                <% end %>
                 <%= link_to "Ver detalhes", competition_path(competition), class: "inline-flex items-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white" %>
               </div>
             </li>

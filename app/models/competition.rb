@@ -27,4 +27,28 @@ class Competition < ApplicationRecord
       .group("participants.id")
       .order(Arel.sql("average_score DESC"))
   end
+
+  def accepted_judge?(user)
+    return false if user.nil?
+
+    judge_assignments.accepted.exists?(user: user)
+  end
+
+  def needs_scores_from?(user)
+    return false if user.nil?
+
+    participant_total = participants.count
+    return false if participant_total.zero?
+
+    user.notes.where(competition: self).count < participant_total
+  end
+
+  def broadcast_leaderboard!
+    Turbo::StreamsChannel.broadcast_replace_to(
+      [ :competition, self, :leaderboard ],
+      target: ActionView::RecordIdentifier.dom_id(self, :leaderboard),
+      partial: "competitions/leaderboard",
+      locals: { competition: self, leaderboard: leaderboard_rows }
+    )
+  end
 end

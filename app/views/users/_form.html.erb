@@ -1,4 +1,8 @@
-<%= form_with(model: user, class: "space-y-6") do |form| %>
+<% cancel_path = local_assigns.fetch(:cancel_path, user.new_record? ? root_path : profile_path) %>
+<% form_url = user.new_record? ? users_path : profile_path %>
+<% form_method = user.new_record? ? :post : :patch %>
+
+<%= form_with(model: user, url: form_url, method: form_method, class: "space-y-6") do |form| %>
   <% if user.errors.any? %>
     <div class="rounded-2xl border border-rose-200 bg-rose-50 p-4" role="alert">
       <div class="flex items-center gap-2 mb-2">
@@ -38,24 +42,6 @@
           placeholder: "joao@exemplo.com",
           help_text: "Email único para acesso ao sistema" %>
 
-      <% if user_signed_in? %>
-        <%= render "shared/form_field",
-            form: form,
-            field: :role,
-            label: "Função no Sistema",
-            type: "select",
-            options: User.roles.keys.map { |role| [role.titleize, role] },
-            help_text: "Defina o nível de acesso do usuário" %>
-
-        <%= render "shared/form_field",
-            form: form,
-            field: :invitation_token,
-            label: "Token de Convite (opcional)",
-            type: "text",
-            placeholder: "abc123def456",
-            help_text: "Token único para convites de competição" %>
-      <% end %>
-
       <div class="rounded-2xl border border-indigo-100 bg-indigo-50/50 p-4">
         <p class="text-xs font-semibold uppercase tracking-wide text-indigo-900 mb-4">Senha</p>
 
@@ -82,9 +68,9 @@
     </div>
 
     <div class="mt-6 flex flex-wrap gap-3 pt-6 border-t border-slate-200">
-      <%= form.submit (user.new_record? ? "Criar Usuário" : "Atualizar Usuário"), class: "inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-indigo-500/30 transition-all duration-200 hover:bg-indigo-500 hover:shadow-xl active:scale-95" %>
+      <%= form.submit (user.new_record? ? "Criar conta" : "Atualizar perfil"), class: "inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-indigo-500/30 transition-all duration-200 hover:bg-indigo-500 hover:shadow-xl active:scale-95" %>
 
-      <%= link_to "Cancelar", (user.new_record? ? users_path : user_path(user)), class: "inline-flex items-center gap-2 rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:border-slate-400 active:scale-95" %>
+      <%= link_to "Cancelar", cancel_path, class: "inline-flex items-center gap-2 rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:border-slate-400 active:scale-95" %>
     </div>
   </div>
 <% end %>

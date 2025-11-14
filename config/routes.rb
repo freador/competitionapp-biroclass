@@ -11,9 +11,17 @@ Rails.application.routes.draw do
   resources :notes
   resources :participants
   resources :competitions do
-    get :public_dashboard, on: :member
+    member do
+      get :public_dashboard
+      get :judging
+      patch :start
+      patch :close
+    end
+
+    resources :notes, only: %i[create update], module: :competitions
   end
-  resources :users
+  resources :users, only: %i[new create]
+  resource :profile, only: %i[show edit update]
 
   get "/login", to: "sessions#new"
   get "/signup", to: "users#new"

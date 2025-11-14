@@ -16,6 +16,9 @@
   </head>
 
   <body class="bg-slate-950 text-slate-100 antialiased">
+    <% if defined?(@pending_judging_competitions) && @pending_judging_competitions.present? %>
+      <%= render "shared/judge_prompt_modal", competition: @pending_judging_competitions.first %>
+    <% end %>
     <!-- Heroicons SVG Sprite -->
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
       <!-- Plus Icon -->
@@ -101,11 +104,11 @@
                 </svg>
                 Competições
               <% end %>
-              <%= link_to users_path, class: "flex items-center gap-1.5 transition-colors hover:text-white" do %>
+              <%= link_to profile_path, class: "flex items-center gap-1.5 transition-colors hover:text-white" do %>
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                   <use href="#heroicon-users" />
                 </svg>
-                Usuários
+                Meu perfil
               <% end %>
             <% end %>
           </nav>

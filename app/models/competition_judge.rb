@@ -14,6 +14,7 @@ class CompetitionJudge < ApplicationRecord
   before_validation :downcase_email
 
   scope :pending, -> { where(status: :pending) }
+  scope :accepted, -> { where(status: :accepted) }
 
   def invitation_path
     Rails.application.routes.url_helpers.invite_path(token: invitation_token)

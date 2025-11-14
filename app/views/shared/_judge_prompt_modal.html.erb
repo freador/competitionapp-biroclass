@@ -1,0 +1,38 @@
+<% return if competition.blank? %>
+
+<div class="fixed inset-0 z-50 flex items-center justify-center px-4 py-8" data-controller="judge-prompt">
+  <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm"></div>
+  <article class="relative z-10 w-full max-w-lg rounded-3xl bg-white p-8 text-slate-900 shadow-2xl ring-1 ring-slate-200">
+    <button type="button"
+            class="absolute right-4 top-4 rounded-full border border-slate-200 bg-white/90 p-2 text-slate-500 transition hover:text-slate-900"
+            data-action="judge-prompt#close"
+            aria-label="Fechar lembrete">
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <use href="#heroicon-x" />
+      </svg>
+    </button>
+    <p class="text-xs font-semibold uppercase tracking-[0.3em] text-indigo-500">Convite de jurado</p>
+    <h2 class="mt-2 text-2xl font-semibold text-slate-900"><%= competition.title %></h2>
+    <p class="mt-3 text-sm text-slate-600">
+      Esta competição já está aberta e aguarda suas notas para os participantes. Clique abaixo para acessar o painel e avaliar todos eles.
+    </p>
+    <dl class="mt-4 grid gap-4 text-sm text-slate-600 sm:grid-cols-2">
+      <div>
+        <dt class="font-semibold text-slate-800">Participantes</dt>
+        <dd class="mt-1"><%= pluralize(competition.participants.count, "participante") %></dd>
+      </div>
+      <div>
+        <dt class="font-semibold text-slate-800">Status</dt>
+        <dd class="mt-1">
+          <%= render "shared/badge", text: competition.status, variant: "success", size: "sm" %>
+        </dd>
+      </div>
+    </dl>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <%= link_to "Ir para painel de notas",
+          judging_competition_path(competition),
+          class: "inline-flex flex-1 items-center justify-center rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-500",
+          data: { turbo: false } %>
+    </div>
+  </article>
+</div>

@@ -1,0 +1,29 @@
+<% content_for :title, "Painel de notas · #{@competition.title}" %>
+
+<div class="flex flex-wrap items-center justify-between gap-4">
+  <div>
+    <p class="text-xs uppercase tracking-[0.3em] text-indigo-400">Painel do jurado</p>
+    <h1 class="text-3xl font-semibold text-slate-900"><%= @competition.title %></h1>
+    <p class="mt-1 text-sm text-slate-500">Avalie cada participante com uma nota de 0 a 10. Comentários são opcionais.</p>
+  </div>
+  <div class="flex gap-3">
+    <%= link_to competition_path(@competition), class: "inline-flex items-center rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-slate-600" do %>
+      ← Voltar
+    <% end %>
+  </div>
+</div>
+
+<section class="mt-8 space-y-6">
+  <% if @participants.any? %>
+    <div class="grid gap-6 md:grid-cols-2">
+      <% @participants.each do |participant| %>
+        <% note = @participant_notes[participant.id] || current_user.notes.build(competition: @competition, participant:, judge: current_user) %>
+        <%= render "competitions/judging_card", competition: @competition, participant:, note: note %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="rounded-3xl border border-dashed border-slate-200 bg-white p-8 text-center text-slate-500">
+      Nenhum participante cadastrado ainda.
+    </div>
+  <% end %>
+</section>

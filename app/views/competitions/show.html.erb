@@ -85,12 +85,38 @@
           </svg>
           Editar competição
         <% end %>
+        <% if @competition.draft? %>
+          <%= button_to start_competition_path(@competition),
+              method: :patch,
+              disabled: !@competition.ready_to_publish?,
+              class: "inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-emerald-700 transition-all duration-200 hover:bg-emerald-100 hover:border-emerald-300 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60" do %>
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <use href="#heroicon-trophy" />
+            </svg>
+            Começar competição
+          <% end %>
+          <% unless @competition.ready_to_publish? %>
+            <p class="text-xs text-slate-500">Cadastre ao menos 1 jurado e 1 participante para iniciar.</p>
+          <% end %>
+        <% elsif @competition.open? %>
+          <%= button_to close_competition_path(@competition),
+              method: :patch,
+              class: "inline-flex items-center gap-2 rounded-full border border-rose-200 bg-rose-50 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-rose-600 transition-all duration-200 hover:bg-rose-100 hover:border-rose-300 active:scale-95" do %>
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <use href="#heroicon-trash" />
+            </svg>
+            Encerrar competição
+          <% end %>
+        <% end %>
       <% end %>
       <%= link_to competitions_path, class: "inline-flex items-center gap-2 rounded-full border border-slate-300 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:border-slate-400 active:scale-95" do %>
         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
           <use href="#heroicon-arrow-right" />
         </svg>
         Voltar para competições
+      <% end %>
+      <% if @competition.accepted_judge?(current_user) && @competition.open? %>
+        <%= link_to "Painel de notas", judging_competition_path(@competition), class: "inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-white transition-all duration-200 hover:bg-slate-800 active:scale-95" %>
       <% end %>
       <% if @competition.owner == current_user %>
         <%= button_to competition_path(@competition), method: :delete, form: { data: { turbo_confirm: "Tem certeza que deseja excluir esta competição?" } }, class: "inline-flex items-center gap-2 rounded-full border border-rose-200 bg-rose-50 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-rose-600 transition-all duration-200 hover:bg-rose-100 hover:border-rose-300 active:scale-95" do %>
@@ -108,51 +134,29 @@
       <header class="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p class="text-xs uppercase tracking-[0.3em] text-indigo-400">Convites</p>
-          <h2 class="text-2xl font-semibold text-slate-900">Links de acesso manual</h2>
-          <p class="text-sm text-slate-500">Compartilhe os links abaixo para que jurados e participantes entrem na plataforma.</p>
+          <h2 class="text-2xl font-semibold text-slate-900">Links para jurados</h2>
+          <p class="text-sm text-slate-500">Compartilhe os links abaixo apenas com o time de avaliação. Participantes não precisam de convite: basta cadastrá-los pelo nome e as notas aparecerão no painel público em tempo real.</p>
         </div>
       </header>
 
-      <div class="mt-6 grid gap-6 lg:grid-cols-2">
-        <section>
-          <h3 class="text-sm font-semibold text-slate-700">Jurados</h3>
-          <% if @judge_invites&.any? %>
-            <ul class="mt-3 space-y-3">
-              <% @judge_invites.each do |invite| %>
-                <li class="rounded-2xl border border-slate-100 bg-slate-50/80 p-4">
-                  <p class="font-semibold text-slate-900"><%= invite.email %></p>
-                  <p class="text-xs text-slate-500">Status: <%= invite.status %></p>
-                  <div class="mt-2 rounded-xl bg-white/70 px-3 py-2 text-xs font-mono text-slate-600">
-                    <%= invite.invitation_path %>
-                  </div>
-                </li>
-              <% end %>
-            </ul>
-          <% else %>
-            <p class="mt-3 text-sm text-slate-500">Nenhum jurado cadastrado nesta competição.</p>
-          <% end %>
-        </section>
-        <section>
-          <h3 class="text-sm font-semibold text-slate-700">Participantes</h3>
-          <% if @participant_invites&.any? %>
-            <ul class="mt-3 space-y-3">
-              <% @participant_invites.each do |participant| %>
-                <li class="rounded-2xl border border-slate-100 bg-slate-50/80 p-4">
-                  <p class="font-semibold text-slate-900"><%= participant.name %></p>
-                  <% if participant.email.present? %>
-                    <p class="text-xs text-slate-500"><%= participant.email %></p>
-                  <% end %>
-                  <div class="mt-2 rounded-xl bg-white/70 px-3 py-2 text-xs font-mono text-slate-600">
-                    <%= participant.invitation_path %>
-                  </div>
-                </li>
-              <% end %>
-            </ul>
-          <% else %>
-            <p class="mt-3 text-sm text-slate-500">Nenhum participante cadastrado ainda.</p>
-          <% end %>
-        </section>
-      </div>
+      <section class="mt-6">
+        <h3 class="text-sm font-semibold text-slate-700">Jurados</h3>
+        <% if @judge_invites&.any? %>
+          <ul class="mt-3 space-y-3">
+            <% @judge_invites.each do |invite| %>
+              <li class="rounded-2xl border border-slate-100 bg-slate-50/80 p-4">
+                <p class="font-semibold text-slate-900"><%= invite.email %></p>
+                <p class="text-xs text-slate-500">Status: <%= invite.status %></p>
+                <div class="mt-2 rounded-xl bg-white/70 px-3 py-2 text-xs font-mono text-slate-600">
+                  <%= invite.invitation_path %>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="mt-3 text-sm text-slate-500">Nenhum jurado cadastrado nesta competição.</p>
+        <% end %>
+      </section>
     </article>
   <% end %>
 
