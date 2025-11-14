@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  participant: one
+  competition: one
+  total_score: 9.99
+  position: 1
+
+two:
+  participant: two
+  competition: two
+  total_score: 9.99
+  position: 1

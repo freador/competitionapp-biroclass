@@ -1,0 +1,50 @@
+<% owners = User.order(:name) %>
+<% status_options = Competition.statuses.keys.map { |status| [status.titleize, status] } %>
+<% submit_disabled = owners.none? %>
+
+<%= form_with(model: competition, class: "contents space-y-6") do |form| %>
+  <% if competition.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+      <h2><%= pluralize(competition.errors.count, "error") %> prohibited this competition from being saved:</h2>
+
+      <ul class="list-disc ml-6">
+        <% competition.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title %>
+    <%= form.text_field :title, required: true, class: ["block shadow-sm rounded-xl border px-3 py-2 mt-2 w-full", {"border-slate-300 focus:outline-indigo-600": competition.errors[:title].none?, "border-red-400 focus:outline-red-600": competition.errors[:title].any?}] %>
+  </div>
+
+  <div>
+    <%= form.label :description %>
+    <%= form.text_area :description, rows: 4, class: ["block shadow-sm rounded-xl border px-3 py-2 mt-2 w-full", {"border-slate-300 focus:outline-indigo-600": competition.errors[:description].none?, "border-red-400 focus:outline-red-600": competition.errors[:description].any?}] %>
+  </div>
+
+  <div>
+    <%= form.label :rules %>
+    <%= form.text_area :rules, rows: 4, class: ["block shadow-sm rounded-xl border px-3 py-2 mt-2 w-full", {"border-slate-300 focus:outline-indigo-600": competition.errors[:rules].none?, "border-red-400 focus:outline-red-600": competition.errors[:rules].any?}] %>
+  </div>
+
+  <div>
+    <%= form.label :status, "Status da competição" %>
+    <%= form.select :status, status_options, { prompt: "Selecione o status" }, { required: true, class: ["block shadow-sm rounded-xl border px-3 py-2 mt-2 w-full", {"border-slate-300 focus:outline-indigo-600": competition.errors[:status].none?, "border-red-400 focus:outline-red-600": competition.errors[:status].any?}] } %>
+  </div>
+
+  <div>
+    <%= form.label :owner_id, "Responsável" %>
+    <% if owners.any? %>
+      <%= form.collection_select :owner_id, owners, :id, :name, { prompt: "Selecione o usuário responsável" }, { required: true, class: ["block shadow-sm rounded-xl border px-3 py-2 mt-2 w-full", {"border-slate-300 focus:outline-indigo-600": competition.errors[:owner_id].none?, "border-red-400 focus:outline-red-600": competition.errors[:owner_id].any?}] } %>
+    <% else %>
+      <div class="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">Cadastre um usuário antes de criar uma competição.</div>
+    <% end %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: ["w-full sm:w-auto rounded-full px-5 py-2.5 text-sm font-semibold text-white inline-flex items-center justify-center shadow-lg transition", submit_disabled ? "bg-slate-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-500"], disabled: submit_disabled %>
+  </div>
+<% end %>

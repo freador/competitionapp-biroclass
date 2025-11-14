@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Competition App" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-slate-950 text-slate-100 antialiased">
+    <div class="min-h-screen bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-900">
+      <header class="border-b border-white/10 bg-white/5 backdrop-blur">
+        <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <%= link_to "Competition App", root_path, class: "text-lg font-semibold tracking-tight text-white" %>
+          <nav class="flex items-center gap-4 text-sm text-slate-200">
+            <%= link_to "Dashboard público", public_competitions_path, class: "hover:text-white transition" %>
+            <%= link_to "Competições", competitions_path, class: "hover:text-white transition" %>
+            <%= link_to "Usuários", users_path, class: "hover:text-white transition" %>
+          </nav>
+          <%= link_to "Nova competição", new_competition_path, class: "hidden md:inline-flex items-center rounded-full bg-indigo-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 hover:bg-indigo-400" %>
+        </div>
+      </header>
+
+      <main class="mx-auto max-w-6xl px-6 py-10">
+        <div class="rounded-3xl bg-white/95 p-6 shadow-2xl ring-1 ring-black/5">
+          <% flash.each do |type, message| %>
+            <% flash_class = case type.to_sym
+                when :notice then "bg-emerald-50 text-emerald-800 border-emerald-200"
+                when :alert then "bg-rose-50 text-rose-800 border-rose-200"
+                else "bg-slate-50 text-slate-800 border-slate-200"
+              end %>
+            <div class="mb-4 rounded-xl border px-4 py-3 text-sm font-semibold <%= flash_class %>">
+              <%= message %>
+            </div>
+          <% end %>
+
+          <%= yield %>
+        </div>
+      </main>
+
+      <footer class="py-8 text-center text-xs uppercase tracking-[0.3em] text-slate-400">
+        Competition App · Built with Ruby on Rails 8 + TailwindCSS
+      </footer>
+    </div>
+  </body>
+</html>
