@@ -310,6 +310,7 @@ GEM
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
     tailwindcss-ruby (4.1.13-arm64-darwin)
+    tailwindcss-ruby (4.1.13-x86_64-linux)
     thor (1.4.0)
     thruster (0.1.16-arm64-darwin)
     timeout (0.4.3)
