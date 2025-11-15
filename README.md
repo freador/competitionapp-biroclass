@@ -18,7 +18,7 @@ Aplicacao Rails 8 para criar competicoes, gerenciar convites de jurados e gerar 
 
 ### Variaveis de ambiente
 
-Configure as variaveis abaixo no painel do Railway (ou via CLI). Valores marcados como *padrao* ja sao definidos no `Dockerfile`, podendo ser sobrescritos conforme necessario:
+Duplique `.env.railway.example` para `.env.railway`, preencha com seus segredos e importe esse arquivo para o Railway (ou adicione manualmente). Valores marcados como *padrao* ja sao definidos no `Dockerfile`, podendo ser sobrescritos conforme necessario:
 
 | Variavel | Obrigatorio? | Valor padrao | Descricao |
 | --- | --- | --- | --- |
