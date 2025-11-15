@@ -1,5 +1,5 @@
 if defined?(Rake::Task)
-  %w[db:prepare db:migrate].each do |db_task|
+  %w[db:prepare db:migrate db:schema:load].each do |db_task|
     next unless Rake::Task.task_defined?(db_task)
 
     Rake::Task[db_task].enhance do
