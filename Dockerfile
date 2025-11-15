@@ -19,11 +19,22 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Set production environment
+# Set production environment and sane defaults for the variables Railway injects.
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+    BUNDLE_WITHOUT="development" \
+    RAILS_LOG_LEVEL="info" \
+    RAILS_SERVE_STATIC_FILES="true" \
+    RAILS_LOG_TO_STDOUT="true" \
+    RAILS_MAX_THREADS="5" \
+    WEB_CONCURRENCY="1" \
+    JOB_CONCURRENCY="1" \
+    SOLID_QUEUE_IN_PUMA="true" \
+    PORT="3000" \
+    RAILWAY_VOLUME_PATH="/rails/storage"
+
+# DATABASE_URL, RAILS_MASTER_KEY and other secrets are injected by Railway at runtime.
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
@@ -63,6 +74,9 @@ RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
     chown -R rails:rails db log storage tmp
 USER 1000:1000
+
+# Persist uploads and other Active Storage artifacts between deploys.
+VOLUME ["/rails/storage"]
 
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
