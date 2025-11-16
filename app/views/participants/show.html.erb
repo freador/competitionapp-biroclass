@@ -67,42 +67,84 @@
     </div>
   </article>
 
-  <!-- Rankings Section -->
-  <% if @participant.rankings.any? %>
+  <% ranking = @participant.ranking %>
+  <% notes_relation = @participant.notes.includes(:judge) %>
+  <% notes_count = notes_relation.count %>
+
+  <% if ranking.present? %>
+    <% evaluations_label = notes_count == 1 ? "1 avaliação registrada" : "#{notes_count} avaliações registradas" %>
     <article class="rounded-3xl border border-slate-100 bg-white p-6 shadow-xl">
       <header class="flex items-center justify-between mb-6">
         <div>
-          <p class="text-xs uppercase tracking-[0.3em] text-indigo-400">Avaliações</p>
-          <h2 class="text-2xl font-semibold text-slate-900">Rankings Recebidos</h2>
+          <p class="text-xs uppercase tracking-[0.3em] text-indigo-400">Resumo</p>
+          <h2 class="text-2xl font-semibold text-slate-900">Desempenho no ranking</h2>
         </div>
         <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600">
-          <%= @participant.rankings.count %>
+          <%= ranking.position.ordinalize %>
         </span>
       </header>
 
+      <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+        <div class="flex items-center gap-4">
+          <div class="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white shadow-xl">
+            <div class="text-center">
+              <p class="text-3xl font-bold"><%= number_with_precision(ranking.total_score, precision: 2) %></p>
+              <p class="text-xs uppercase tracking-wide">pontos</p>
+            </div>
+          </div>
+          <div>
+            <p class="text-sm font-semibold text-slate-900"><%= evaluations_label %></p>
+            <p class="text-xs text-slate-500">Atualizado em <%= l ranking.updated_at, format: :short %></p>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 w-full md:w-auto">
+          <p class="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">Posição</p>
+          <p class="text-2xl font-bold text-slate-900"><%= ranking.position.ordinalize %> lugar</p>
+        </div>
+      </div>
+    </article>
+  <% end %>
+
+  <article class="rounded-3xl border border-slate-100 bg-white p-6 shadow-xl">
+    <header class="flex items-center justify-between mb-6">
+      <div>
+        <p class="text-xs uppercase tracking-[0.3em] text-indigo-400">Avaliações</p>
+        <h2 class="text-2xl font-semibold text-slate-900">Notas recebidas</h2>
+      </div>
+      <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600">
+        <%= notes_count %>
+      </span>
+    </header>
+
+    <% if notes_count.positive? %>
       <div class="space-y-3">
-        <% @participant.rankings.order(created_at: :desc).each do |ranking| %>
+        <% notes_relation.order(created_at: :desc).each do |note| %>
           <div class="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 transition-all duration-200 hover:shadow-md hover:border-slate-200">
             <div class="flex items-center justify-between">
               <div class="flex-1">
                 <p class="text-sm font-semibold text-slate-900">
-                  Avaliado por <%= ranking.user.name %>
+                  Avaliado por <%= note.judge.name %>
                 </p>
                 <p class="text-xs text-slate-500">
-                  <%= l ranking.created_at, format: :short %>
+                  <%= l note.created_at, format: :short %>
                 </p>
-                <% if ranking.notes.present? %>
-                  <p class="mt-2 text-sm text-slate-600"><%= ranking.notes %></p>
+                <% if note.comment.present? %>
+                  <p class="mt-2 text-sm text-slate-600"><%= note.comment %></p>
                 <% end %>
               </div>
               <div class="text-right">
-                <p class="text-3xl font-bold text-indigo-600"><%= ranking.score %></p>
+                <p class="text-3xl font-bold text-indigo-600"><%= number_with_precision(note.score, precision: 2) %></p>
                 <p class="text-xs text-slate-500">pontos</p>
               </div>
             </div>
           </div>
         <% end %>
       </div>
-    </article>
-  <% end %>
+    <% else %>
+      <div class="text-center text-sm text-slate-500">
+        Nenhuma nota cadastrada para este participante ainda.
+      </div>
+    <% end %>
+  </article>
 </div>

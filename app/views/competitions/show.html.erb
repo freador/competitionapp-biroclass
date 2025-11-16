@@ -216,7 +216,7 @@
   </article>
 
   <!-- Rankings Section -->
-  <% if @competition.rankings.any? %>
+  <% if @rankings.any? %>
     <article class="rounded-2xl border-4 border-black bg-white p-10 shadow-2xl">
       <header class="mb-8 flex items-center justify-between">
         <div>
@@ -224,12 +224,14 @@
           <h2 class="mt-2 font-['Montserrat'] text-4xl font-bold text-black">Classificações</h2>
         </div>
         <span class="rounded-full border-2 border-[#FFCC00] bg-[#FFCC00]/10 px-5 py-2 font-['Montserrat'] text-sm font-bold text-[#FFCC00]">
-          <%= @competition.rankings.count %>
+          <%= @rankings.count %>
         </span>
       </header>
 
       <div class="space-y-4">
-        <% @competition.rankings.order(created_at: :desc).limit(5).each do |ranking| %>
+        <% @rankings.limit(5).each do |ranking| %>
+          <% note_count = ranking.participant.notes.count %>
+          <% evaluations_label = note_count == 1 ? "1 avaliação" : "#{note_count} avaliações" %>
           <div class="rounded-xl border-2 border-gray-200 bg-gray-50 p-6 transition-all hover:border-[#FFCC00] hover:shadow-md">
             <div class="flex items-center justify-between">
               <div class="flex-1">
@@ -237,11 +239,16 @@
                   <%= ranking.participant.name %>
                 </p>
                 <p class="mt-1 text-sm text-gray-600">
-                  Avaliado por: <span class="font-semibold"><%= ranking.user.name %></span> · <%= l ranking.created_at, format: :short %>
+                  <% if note_count.positive? %>
+                    Média baseada em <span class="font-semibold"><%= evaluations_label %></span>
+                  <% else %>
+                    Aguardando primeiras notas
+                  <% end %>
+                  · Atualizado em <%= l ranking.updated_at, format: :short %>
                 </p>
               </div>
               <div class="text-right">
-                <p class="font-['Montserrat'] text-5xl font-bold text-[#FFCC00]"><%= ranking.score %></p>
+                <p class="font-['Montserrat'] text-5xl font-bold text-[#FFCC00]"><%= number_with_precision(ranking.total_score, precision: 2) %></p>
                 <p class="mt-1 text-xs uppercase tracking-wide text-gray-600">pontos</p>
               </div>
             </div>
@@ -249,7 +256,7 @@
         <% end %>
       </div>
 
-      <% if @competition.rankings.count > 5 %>
+      <% if @rankings.count > 5 %>
         <div class="mt-8 text-center">
           <%= link_to rankings_path(competition_id: @competition.id), class: "inline-flex items-center gap-2 font-['Montserrat'] text-sm font-bold text-[#FFCC00] transition-colors hover:text-black" do %>
             Ver todos os rankings

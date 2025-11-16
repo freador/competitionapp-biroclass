@@ -26,12 +26,14 @@
         </header>
 
         <div class="space-y-3">
-          <% comp_rankings.sort_by { |r| [-r.score.to_f, r.created_at] }.each_with_index do |ranking, index| %>
+          <% comp_rankings.sort_by(&:position).each do |ranking| %>
+            <% note_count = ranking.participant.notes.count %>
+            <% rank_index = ranking.position - 1 %>
             <div class="group rounded-2xl border border-slate-100 bg-slate-50/60 p-4 transition-all duration-200 hover:shadow-md hover:border-indigo-200 hover:bg-white">
               <div class="flex items-center gap-4">
                 <!-- Position Badge -->
-                <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full <%= index == 0 ? 'bg-gradient-to-br from-amber-400 to-yellow-500' : index == 1 ? 'bg-gradient-to-br from-slate-300 to-slate-400' : index == 2 ? 'bg-gradient-to-br from-orange-400 to-orange-500' : 'bg-slate-200' %> font-bold text-white shadow-sm">
-                  <%= index + 1 %>
+                <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full <%= rank_index == 0 ? 'bg-gradient-to-br from-amber-400 to-yellow-500' : rank_index == 1 ? 'bg-gradient-to-br from-slate-300 to-slate-400' : rank_index == 2 ? 'bg-gradient-to-br from-orange-400 to-orange-500' : 'bg-slate-200' %> font-bold text-white shadow-sm">
+                  <%= ranking.position %>
                 </div>
 
                 <!-- Participant Info -->
@@ -40,13 +42,13 @@
                     <%= ranking.participant.name %>
                   </h3>
                   <p class="text-xs text-slate-500">
-                    Avaliado por <%= ranking.user.name %> · <%= l ranking.created_at, format: :short %>
+                    <%= note_count == 1 ? "1 avaliação registrada" : "#{note_count} avaliações registradas" %> · Atualizado em <%= l ranking.updated_at, format: :short %>
                   </p>
                 </div>
 
                 <!-- Score -->
                 <div class="text-right">
-                  <p class="text-3xl font-bold text-indigo-600"><%= ranking.score %></p>
+                  <p class="text-3xl font-bold text-indigo-600"><%= number_with_precision(ranking.total_score, precision: 2) %></p>
                   <p class="text-xs text-slate-500">pontos</p>
                 </div>
 

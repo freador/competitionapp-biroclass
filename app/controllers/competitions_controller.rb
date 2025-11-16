@@ -26,6 +26,7 @@ class CompetitionsController < ApplicationController
 
   # GET /competitions/1 or /competitions/1.json
   def show
+    @rankings = @competition.rankings.includes(participant: :notes)
     if @competition.owner == current_user
       @judge_invites = @competition.judge_assignments.order(created_at: :desc)
     end

@@ -1,7 +1,10 @@
 <% content_for :title, "Ranking" %>
 
+<% notes_count = @ranking.participant.notes.count %>
+<% notes_label = notes_count == 1 ? "1 avaliação registrada" : "#{notes_count} avaliações registradas" %>
+
 <%= render "shared/page_header",
-    title: "Detalhes da Avaliação",
+    title: "Detalhes do Ranking",
     breadcrumb: "Ranking" %>
 
 <div class="mt-8 space-y-6">
@@ -10,7 +13,7 @@
     <div class="mb-6 flex items-start gap-6">
       <div class="flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white shadow-2xl">
         <div class="text-center">
-          <p class="text-4xl font-bold"><%= @ranking.score %></p>
+          <p class="text-4xl font-bold"><%= number_with_precision(@ranking.total_score, precision: 2) %></p>
           <p class="text-xs uppercase tracking-wide">pontos</p>
         </div>
       </div>
@@ -34,9 +37,9 @@
           </div>
 
           <div class="rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
-            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">Avaliado por</p>
-            <p class="text-lg font-semibold text-slate-900"><%= @ranking.user.name %></p>
-            <p class="text-sm text-slate-500"><%= l @ranking.created_at, format: :short %></p>
+            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">Avaliações consideradas</p>
+            <p class="text-lg font-semibold text-slate-900"><%= notes_label %></p>
+            <p class="text-sm text-slate-500">Atualizado em <%= l @ranking.updated_at, format: :short %></p>
           </div>
         </div>
 
