@@ -1,0 +1,114 @@
+<% content_for :title, "Guia de Marca · Competition App" %>
+
+<div class="space-y-10">
+  <section class="rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-950 p-8 shadow-2xl shadow-indigo-900/20">
+    <div class="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+      <div class="flex items-center gap-6">
+        <%= image_tag "logo-128.png", alt: "Logo da Competition App", class: "h-24 w-24 rounded-3xl border border-white/30 bg-white/95 p-4 shadow-2xl shadow-indigo-500/30" %>
+        <div>
+          <p class="text-sm uppercase tracking-[0.35em] text-indigo-200">Identidade oficial</p>
+          <h1 class="mt-2 text-3xl font-bold tracking-tight text-white">Guia de Marca Competition App</h1>
+          <p class="mt-3 max-w-2xl text-base text-slate-200">
+            Use estes ativos para garantir consistência nas comunicações da plataforma: logo, favicon e paleta cromática.
+            Todos os downloads estão prontos em alta resolução.
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <%= link_to asset_path("logo-128.png"), download: "competition-logo.png", class: "inline-flex items-center gap-2 rounded-full bg-white/90 px-5 py-2 text-sm font-semibold text-slate-900 shadow-lg shadow-slate-900/20 transition hover:bg-white" do %>
+          <svg class="h-4 w-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <use href="#heroicon-download" />
+          </svg>
+          Baixar logo PNG
+        <% end %>
+        <%= link_to asset_path("favicon.png"), download: "competition-favicon.png", class: "inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/10" do %>
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <use href="#heroicon-lightning-bolt" />
+          </svg>
+          Baixar favicon
+        <% end %>
+        <%= link_to asset_path("brand_guide_structured.pdf"), target: "_blank", rel: "noopener", class: "inline-flex items-center gap-2 rounded-full border border-indigo-400/60 px-5 py-2 text-sm font-semibold text-indigo-100 transition hover:bg-indigo-500/20" do %>
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <use href="#heroicon-document" />
+          </svg>
+          Abrir PDF completo
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <% colors = [
+    {title: "Primária", hex: "#6366F1", description: "Botões, destaques e CTAs", swatch: "bg-indigo-500"},
+    {title: "Base Escura", hex: "#020617", description: "Fundos e áreas amplas", swatch: "bg-slate-950"},
+    {title: "Acento Vibrante", hex: "#FACC15", description: "Indicadores e alertas amigáveis", swatch: "bg-amber-400"}
+  ] %>
+
+  <section class="grid gap-6 md:grid-cols-2">
+    <div class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+      <p class="text-xs uppercase tracking-[0.4em] text-indigo-200">Cores</p>
+      <h2 class="mt-2 text-2xl font-semibold text-white">Paleta fundamental</h2>
+      <p class="mt-3 text-sm text-slate-200">
+        Mantemos contraste alto e harmonia vibrante usando três pilares cromáticos.
+        Combine-os seguindo a proporção 60% base, 30% primária e 10% acento.
+      </p>
+      <div class="mt-6 grid gap-4 sm:grid-cols-3">
+        <% colors.each do |color| %>
+          <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-4 text-center">
+            <div class="h-16 w-16 rounded-2xl border border-white/20 p-1.5 mx-auto">
+              <div class="<%= color[:swatch] %> h-full w-full rounded-xl shadow-inner shadow-black/30"></div>
+            </div>
+            <p class="mt-3 text-xs uppercase tracking-[0.35em] text-slate-500"><%= color[:title] %></p>
+            <p class="mt-1 font-semibold text-white"><%= color[:hex] %></p>
+            <p class="mt-1 text-xs text-slate-400"><%= color[:description] %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="space-y-6">
+      <div class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+        <p class="text-xs uppercase tracking-[0.4em] text-indigo-200">Tipografia</p>
+        <h2 class="mt-2 text-2xl font-semibold text-white">Inter para textos, Space Grotesk para títulos</h2>
+        <p class="mt-3 text-sm text-slate-200">
+          Utilize títulos fortes em Space Grotesk (peso 600+) e textos em Inter/`font-sans` com peso 400–500.
+          Mantemos ample tracking em labels e botões para reforçar o clima esportivo.
+        </p>
+        <div class="mt-5 space-y-3 rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+          <p class="text-xs uppercase tracking-[0.5em] text-indigo-300">Exemplo</p>
+          <p class="text-3xl font-semibold text-white">Ranking global atualizado</p>
+          <p class="text-sm text-slate-300">Notas em tempo real, acessíveis para organizadores, jurados e participantes convidados.</p>
+        </div>
+      </div>
+
+      <div class="rounded-3xl border border-emerald-400/40 bg-emerald-950/30 p-6 text-emerald-50">
+        <p class="text-xs uppercase tracking-[0.4em] text-emerald-200">Boas práticas</p>
+        <ul class="mt-3 list-disc space-y-2 pl-6 text-sm">
+          <li>Use o logo em fundo escuro ou branco com o contorno transparente incluído.</li>
+          <li>Mantenha margem mínima de 16px ao redor do ícone.</li>
+          <li>Evite distorcer as proporções ou aplicar sombras extras além das já previstas.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div>
+        <p class="text-xs uppercase tracking-[0.4em] text-indigo-200">Documentação</p>
+        <h2 class="mt-2 text-2xl font-semibold text-white">Brand Guide completo</h2>
+        <p class="mt-2 text-sm text-slate-200">
+          Consulte o PDF estruturado sempre que precisar criar novos materiais, apresentações ou páginas públicas.
+        </p>
+      </div>
+      <%= link_to "Download do PDF", asset_path("brand_guide_structured.pdf"), target: "_blank", rel: "noopener", class: "inline-flex items-center gap-2 rounded-full bg-indigo-500 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-400" %>
+    </div>
+    <div class="mt-6 h-[600px] rounded-2xl border border-white/10 bg-slate-950/70 p-3">
+      <iframe
+        src="<%= asset_path("brand_guide_structured.pdf") %>#toolbar=0"
+        title="Brand Guide Competition App"
+        class="h-full w-full rounded-xl border border-white/10 bg-white"
+        loading="lazy">
+      </iframe>
+    </div>
+  </section>
+</div>

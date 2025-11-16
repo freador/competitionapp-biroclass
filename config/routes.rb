@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   end
   resources :users, only: %i[new create]
   resource :profile, only: %i[show edit update]
+  resource :brand_guide, only: :show, controller: "brand_guide"
 
   get "/login", to: "sessions#new"
   get "/signup", to: "users#new"

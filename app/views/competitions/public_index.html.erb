@@ -1,47 +1,54 @@
-<!-- Hero Section -->
-<section class="relative -m-6 overflow-hidden rounded-t-3xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 px-6 py-20 text-white md:py-32">
-  <!-- Animated background elements -->
-  <div class="absolute inset-0 opacity-10">
-    <div class="absolute -left-4 top-10 h-72 w-72 animate-pulse rounded-full bg-white blur-3xl"></div>
-    <div class="absolute -right-4 bottom-10 h-96 w-96 animate-pulse rounded-full bg-white blur-3xl" style="animation-delay: 2s;"></div>
+<!-- Hero Section - Full Width -->
+<section class="relative overflow-hidden bg-black px-8 py-32 text-white lg:px-16 lg:py-40">
+  <!-- Geometric circles background - Brand identity -->
+  <div class="absolute inset-0 opacity-5">
+    <div class="absolute left-1/4 top-20 h-96 w-96 rounded-full bg-[#FFCC00]"></div>
+    <div class="absolute right-1/4 bottom-20 h-64 w-64 rounded-full bg-[#FFCC00]"></div>
   </div>
 
-  <div class="relative mx-auto max-w-4xl text-center">
-    <div class="mb-6 inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2 text-sm font-semibold backdrop-blur-sm">
-      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-        <use href="#heroicon-trophy" />
-      </svg>
-      Plataforma de Competições e Rankings
+  <div class="relative mx-auto max-w-6xl">
+    <!-- Badge -->
+    <div class="mb-10 flex justify-center">
+      <div class="inline-flex items-center gap-3 rounded-full border-2 border-[#FFCC00] bg-[#FFCC00]/10 px-6 py-3 backdrop-blur-sm">
+        <svg class="h-6 w-6 text-[#FFCC00]" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+          <use href="#heroicon-trophy" />
+        </svg>
+        <span class="font-['Montserrat'] text-sm font-semibold text-[#FFCC00]">Plataforma de Competições</span>
+      </div>
     </div>
 
-    <h1 class="mb-6 text-5xl font-bold leading-tight tracking-tight md:text-7xl">
-      Transforme ideias em
-      <span class="bg-gradient-to-r from-yellow-200 to-pink-200 bg-clip-text text-transparent">competições épicas</span>
+    <!-- Main Heading -->
+    <h1 class="mb-10 text-center font-['Montserrat'] text-6xl font-bold leading-tight tracking-tight lg:text-8xl">
+      Transforme ideias em<br/>
+      <span class="text-[#FFCC00]">competições épicas</span>
     </h1>
 
-    <p class="mb-10 text-xl leading-relaxed text-indigo-100 md:text-2xl">
-      Crie competições profissionais, convide jurados especialistas e gere rankings automáticos com total transparência e credibilidade.
+    <!-- Subtitle -->
+    <p class="mb-14 text-center text-xl leading-relaxed text-gray-300 lg:text-2xl">
+      Crie competições profissionais, convide jurados especialistas e gere<br class="hidden lg:block"/>
+      rankings automáticos com total transparência e credibilidade.
     </p>
 
-    <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
+    <!-- CTAs -->
+    <div class="flex flex-col items-center justify-center gap-5 sm:flex-row">
       <% if user_signed_in? %>
-        <%= link_to competition_builder_path, class: "group inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-indigo-600 shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-indigo-500/50" do %>
+        <%= link_to competition_builder_path, class: "group inline-flex items-center gap-3 rounded-full bg-[#FFCC00] px-10 py-5 font-['Montserrat'] text-lg font-bold text-black shadow-2xl shadow-[#FFCC00]/20 transition-all duration-300 hover:scale-105 hover:bg-[#FFD633]" do %>
           Criar Competição
-          <svg class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <svg class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
             <use href="#heroicon-arrow-right" />
           </svg>
         <% end %>
-        <%= link_to competitions_path, class: "inline-flex items-center gap-2 rounded-full border-2 border-white/50 bg-white/10 px-8 py-4 text-lg font-semibold backdrop-blur-sm transition-all hover:bg-white/20" do %>
+        <%= link_to competitions_path, class: "inline-flex items-center gap-2 rounded-full border-2 border-white px-10 py-5 text-lg font-semibold transition-all hover:bg-white hover:text-black" do %>
           Minhas Competições
         <% end %>
       <% else %>
-        <%= link_to new_user_path, class: "group inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-indigo-600 shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-indigo-500/50" do %>
+        <%= link_to new_user_path, class: "group inline-flex items-center gap-3 rounded-full bg-[#FFCC00] px-10 py-5 font-['Montserrat'] text-lg font-bold text-black shadow-2xl shadow-[#FFCC00]/20 transition-all duration-300 hover:scale-105 hover:bg-[#FFD633]" do %>
           Começar Grátis
-          <svg class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <svg class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
             <use href="#heroicon-arrow-right" />
           </svg>
         <% end %>
-        <%= link_to new_session_path, class: "inline-flex items-center gap-2 rounded-full border-2 border-white/50 bg-white/10 px-8 py-4 text-lg font-semibold backdrop-blur-sm transition-all hover:bg-white/20" do %>
+        <%= link_to new_session_path, class: "inline-flex items-center gap-2 rounded-full border-2 border-white px-10 py-5 text-lg font-semibold transition-all hover:bg-white hover:text-black" do %>
           Fazer Login
         <% end %>
       <% end %>
@@ -50,124 +57,108 @@
 </section>
 
 <!-- Features Section -->
-<section class="py-20">
-  <div class="mx-auto max-w-4xl text-center">
-    <h2 class="mb-4 text-4xl font-bold text-slate-800">Por que escolher nossa plataforma?</h2>
-    <p class="mb-16 text-xl text-slate-600">Tudo que você precisa para realizar competições profissionais</p>
-  </div>
-
-  <div class="grid gap-8 md:grid-cols-3">
-    <!-- Feature 1 -->
-    <div class="group rounded-2xl bg-gradient-to-br from-indigo-50 to-purple-50 p-8 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-      <div class="mb-4 inline-flex rounded-full bg-indigo-100 p-4">
-        <svg class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-          <use href="#heroicon-users" />
-        </svg>
-      </div>
-      <h3 class="mb-3 text-2xl font-bold text-slate-800">Sistema de Convites</h3>
-      <p class="text-slate-600">
-        Convide jurados especialistas por email com links exclusivos. Controle total sobre quem avalia suas competições.
-      </p>
+<section class="bg-white px-8 py-24 lg:px-16">
+  <div class="mx-auto max-w-6xl space-y-16">
+    <div class="text-center">
+      <h2 class="mb-6 font-['Montserrat'] text-5xl font-bold text-black lg:text-6xl">Por que escolher nossa plataforma?</h2>
+      <p class="text-xl text-gray-600">Tudo que você precisa para realizar competições profissionais</p>
     </div>
 
-    <!-- Feature 2 -->
-    <div class="group rounded-2xl bg-gradient-to-br from-pink-50 to-rose-50 p-8 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-      <div class="mb-4 inline-flex rounded-full bg-pink-100 p-4">
-        <svg class="h-8 w-8 text-pink-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-          <use href="#heroicon-chart-bar" />
-        </svg>
+    <div class="grid gap-10 lg:grid-cols-3">
+      <!-- Feature 1 -->
+      <div class="group rounded-2xl border-4 border-black bg-white p-10 transition-all duration-300 hover:border-[#FFCC00] hover:shadow-2xl">
+        <div class="mb-6 inline-flex rounded-full bg-black p-5">
+          <svg class="h-10 w-10 text-[#FFCC00]" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+            <use href="#heroicon-users" />
+          </svg>
+        </div>
+        <h3 class="mb-4 font-['Montserrat'] text-2xl font-bold text-black">Sistema de Convites</h3>
+        <p class="text-lg leading-relaxed text-gray-700">
+          Convide jurados especialistas por email com links exclusivos. Controle total sobre quem avalia suas competições.
+        </p>
       </div>
-      <h3 class="mb-3 text-2xl font-bold text-slate-800">Rankings Automáticos</h3>
-      <p class="text-slate-600">
-        Algoritmos inteligentes calculam rankings em tempo real baseados nas avaliações dos jurados. 100% transparente.
-      </p>
-    </div>
 
-    <!-- Feature 3 -->
-    <div class="group rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 p-8 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-      <div class="mb-4 inline-flex rounded-full bg-emerald-100 p-4">
-        <svg class="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-          <use href="#heroicon-star" />
-        </svg>
+      <!-- Feature 2 -->
+      <div class="group rounded-2xl border-4 border-black bg-white p-10 transition-all duration-300 hover:border-[#FFCC00] hover:shadow-2xl">
+        <div class="mb-6 inline-flex rounded-full bg-black p-5">
+          <svg class="h-10 w-10 text-[#FFCC00]" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+            <use href="#heroicon-chart-bar" />
+          </svg>
+        </div>
+        <h3 class="mb-4 font-['Montserrat'] text-2xl font-bold text-black">Rankings Automáticos</h3>
+        <p class="text-lg leading-relaxed text-gray-700">
+          Algoritmos inteligentes calculam rankings em tempo real baseados nas avaliações dos jurados. 100% transparente.
+        </p>
       </div>
-      <h3 class="mb-3 text-2xl font-bold text-slate-800">Avaliações Personalizadas</h3>
-      <p class="text-slate-600">
-        Defina critérios customizados de avaliação. Cada competição é única e merece critérios específicos.
-      </p>
+
+      <!-- Feature 3 -->
+      <div class="group rounded-2xl border-4 border-black bg-white p-10 transition-all duration-300 hover:border-[#FFCC00] hover:shadow-2xl">
+        <div class="mb-6 inline-flex rounded-full bg-black p-5">
+          <svg class="h-10 w-10 text-[#FFCC00]" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+            <use href="#heroicon-star" />
+          </svg>
+        </div>
+        <h3 class="mb-4 font-['Montserrat'] text-2xl font-bold text-black">Avaliações Personalizadas</h3>
+        <p class="text-lg leading-relaxed text-gray-700">
+          Defina critérios customizados de avaliação. Cada competição é única e merece critérios específicos.
+        </p>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- How It Works Section -->
-<section class="py-20">
-  <div class="mx-auto max-w-4xl text-center">
-    <h2 class="mb-4 text-4xl font-bold text-slate-800">Como funciona?</h2>
-    <p class="mb-16 text-xl text-slate-600">Em apenas 3 passos simples</p>
-  </div>
+<section class="bg-gray-50 px-8 py-24 lg:px-16">
+  <div class="mx-auto max-w-6xl space-y-16">
+    <div class="text-center">
+      <h2 class="mb-6 font-['Montserrat'] text-5xl font-bold text-black lg:text-6xl">Como funciona?</h2>
+      <p class="text-xl text-gray-600">Em apenas 3 passos simples</p>
+    </div>
 
-  <div class="relative">
-    <!-- Connection Line -->
-    <div class="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 bg-gradient-to-b from-indigo-200 via-purple-200 to-pink-200 md:block"></div>
-
-    <div class="space-y-16">
+    <div class="space-y-10">
       <!-- Step 1 -->
-      <div class="relative flex flex-col items-center gap-8 md:flex-row">
-        <div class="z-10 flex-1 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 p-8 text-white shadow-2xl md:text-right">
-          <div class="mb-4 flex items-center justify-center gap-3 md:justify-end">
-            <span class="text-6xl font-bold opacity-50">01</span>
-            <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-              <use href="#heroicon-plus" />
-            </svg>
+      <div class="group relative overflow-hidden rounded-2xl border-4 border-black bg-white p-12 shadow-xl transition-all duration-500 hover:border-[#FFCC00] lg:p-16">
+        <div class="relative z-10">
+          <div class="mb-8 flex items-center gap-6">
+            <div class="flex h-20 w-20 items-center justify-center rounded-full bg-black font-['Montserrat'] text-3xl font-bold text-[#FFCC00]">
+              1
+            </div>
+            <h3 class="font-['Montserrat'] text-4xl font-bold text-black lg:text-5xl">Crie sua Competição</h3>
           </div>
-          <h3 class="mb-3 text-2xl font-bold">Crie sua Competição</h3>
-          <p class="text-indigo-100">
-            Configure título, descrição, participantes e critérios de avaliação. Nosso wizard torna tudo super simples.
+          <p class="max-w-4xl text-xl leading-relaxed text-gray-700 lg:text-2xl">
+            Configure título, descrição, participantes e critérios de avaliação. Nosso wizard intuitivo torna tudo super simples e rápido.
           </p>
         </div>
-        <div class="z-20 hidden h-16 w-16 items-center justify-center rounded-full bg-white shadow-xl ring-4 ring-indigo-100 md:flex">
-          <span class="text-2xl font-bold text-indigo-600">1</span>
-        </div>
-        <div class="flex-1"></div>
       </div>
 
       <!-- Step 2 -->
-      <div class="relative flex flex-col items-center gap-8 md:flex-row">
-        <div class="flex-1"></div>
-        <div class="z-20 hidden h-16 w-16 items-center justify-center rounded-full bg-white shadow-xl ring-4 ring-purple-100 md:flex">
-          <span class="text-2xl font-bold text-purple-600">2</span>
-        </div>
-        <div class="z-10 flex-1 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 p-8 text-white shadow-2xl">
-          <div class="mb-4 flex items-center gap-3">
-            <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-              <use href="#heroicon-users" />
-            </svg>
-            <span class="text-6xl font-bold opacity-50">02</span>
+      <div class="group relative overflow-hidden rounded-2xl border-4 border-black bg-white p-12 shadow-xl transition-all duration-500 hover:border-[#FFCC00] lg:p-16">
+        <div class="relative z-10">
+          <div class="mb-8 flex items-center gap-6">
+            <div class="flex h-20 w-20 items-center justify-center rounded-full bg-black font-['Montserrat'] text-3xl font-bold text-[#FFCC00]">
+              2
+            </div>
+            <h3 class="font-['Montserrat'] text-4xl font-bold text-black lg:text-5xl">Convide Jurados</h3>
           </div>
-          <h3 class="mb-3 text-2xl font-bold">Convide Jurados</h3>
-          <p class="text-purple-100">
-            Envie convites por email para especialistas avaliarem. Cada jurado recebe um link exclusivo e seguro.
+          <p class="max-w-4xl text-xl leading-relaxed text-gray-700 lg:text-2xl">
+            Envie convites por email para especialistas avaliarem. Cada jurado recebe um link exclusivo e seguro para acessar a competição.
           </p>
         </div>
       </div>
 
       <!-- Step 3 -->
-      <div class="relative flex flex-col items-center gap-8 md:flex-row">
-        <div class="z-10 flex-1 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 p-8 text-white shadow-2xl md:text-right">
-          <div class="mb-4 flex items-center justify-center gap-3 md:justify-end">
-            <span class="text-6xl font-bold opacity-50">03</span>
-            <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-              <use href="#heroicon-trophy" />
-            </svg>
+      <div class="group relative overflow-hidden rounded-2xl border-4 border-black bg-white p-12 shadow-xl transition-all duration-500 hover:border-[#FFCC00] lg:p-16">
+        <div class="relative z-10">
+          <div class="mb-8 flex items-center gap-6">
+            <div class="flex h-20 w-20 items-center justify-center rounded-full bg-black font-['Montserrat'] text-3xl font-bold text-[#FFCC00]">
+              3
+            </div>
+            <h3 class="font-['Montserrat'] text-4xl font-bold text-black lg:text-5xl">Veja o Ranking</h3>
           </div>
-          <h3 class="mb-3 text-2xl font-bold">Veja o Ranking</h3>
-          <p class="text-pink-100">
-            Acompanhe as avaliações em tempo real e veja o ranking sendo formado automaticamente. Tudo transparente!
+          <p class="max-w-4xl text-xl leading-relaxed text-gray-700 lg:text-2xl">
+            Acompanhe as avaliações em tempo real e veja o ranking sendo formado automaticamente. Tudo 100% transparente e justo!
           </p>
         </div>
-        <div class="z-20 hidden h-16 w-16 items-center justify-center rounded-full bg-white shadow-xl ring-4 ring-pink-100 md:flex">
-          <span class="text-2xl font-bold text-pink-600">3</span>
-        </div>
-        <div class="flex-1"></div>
       </div>
     </div>
   </div>
@@ -175,126 +166,140 @@
 
 <!-- Featured Competitions Section -->
 <% if @competitions.any? %>
-  <section class="py-20">
-    <div class="mb-12 flex items-center justify-between">
-      <div>
-        <h2 class="text-4xl font-bold text-slate-800">Competições em Destaque</h2>
-        <p class="mt-2 text-lg text-slate-600">Veja o que está acontecendo agora</p>
+  <section class="bg-white px-8 py-24 lg:px-16">
+    <div class="mx-auto max-w-6xl space-y-12">
+      <div class="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
+        <div>
+          <h2 class="font-['Montserrat'] text-5xl font-bold text-black lg:text-6xl">Competições em Destaque</h2>
+          <p class="mt-4 text-xl text-gray-600">Veja o que está acontecendo agora na plataforma</p>
+        </div>
+        <%= link_to public_competitions_path, class: "group inline-flex items-center gap-3 font-['Montserrat'] text-lg font-bold text-[#FFCC00] transition-colors hover:text-black" do %>
+          Ver todas as competições
+          <svg class="h-6 w-6 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
+            <use href="#heroicon-arrow-right" />
+          </svg>
+        <% end %>
       </div>
-      <%= link_to public_competitions_path, class: "group inline-flex items-center gap-2 text-lg font-semibold text-indigo-600 transition-colors hover:text-indigo-700" do %>
-        Ver todas
-        <svg class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-          <use href="#heroicon-arrow-right" />
-        </svg>
-      <% end %>
-    </div>
 
-    <div class="grid gap-6 md:grid-cols-2">
-      <% @competitions.limit(4).each do |competition| %>
-        <article class="group relative overflow-hidden rounded-2xl border-2 border-slate-200 bg-white p-6 transition-all duration-300 hover:border-indigo-300 hover:shadow-2xl">
-          <!-- Status Badge -->
-          <% status_colors = {
-            "draft" => "bg-slate-100 text-slate-700",
-            "open" => "bg-emerald-100 text-emerald-700",
-            "closed" => "bg-rose-100 text-rose-700"
-          } %>
-          <div class="mb-4 flex items-start justify-between">
-            <span class="rounded-full <%= status_colors[competition.status] || 'bg-slate-100 text-slate-700' %> px-3 py-1 text-xs font-bold uppercase tracking-wide">
-              <%= competition.status %>
-            </span>
-            <svg class="h-8 w-8 text-slate-300 transition-colors group-hover:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-              <use href="#heroicon-trophy" />
-            </svg>
-          </div>
+      <div class="grid gap-10 lg:grid-cols-2">
+        <% @competitions.limit(4).each do |competition| %>
+          <article class="group relative overflow-hidden rounded-2xl border-4 border-black bg-white p-10 transition-all duration-300 hover:border-[#FFCC00] hover:shadow-2xl">
+            <!-- Status Badge -->
+            <% status_config = {
+              "draft" => { color: "bg-gray-100 text-gray-800 border-gray-300", label: "Rascunho" },
+              "open" => { color: "bg-[#FFCC00] text-black border-[#FFCC00]", label: "Aberta" },
+              "closed" => { color: "bg-black text-white border-black", label: "Encerrada" }
+            } %>
+            <% status = status_config[competition.status] || { color: "bg-gray-100 text-gray-800 border-gray-300", label: competition.status } %>
 
-          <!-- Competition Info -->
-          <h3 class="mb-2 text-2xl font-bold text-slate-800 transition-colors group-hover:text-indigo-600">
-            <%= competition.title %>
-          </h3>
-          <p class="mb-1 text-sm font-semibold text-indigo-600">
-            por <%= competition.owner.name %>
-          </p>
-          <p class="mb-6 line-clamp-2 text-slate-600">
-            <%= truncate(competition.description, length: 120) %>
-          </p>
+            <div class="mb-6 flex items-start justify-between">
+              <span class="inline-flex items-center gap-2 rounded-full border-2 <%= status[:color] %> px-5 py-2 font-['Montserrat'] text-xs font-bold uppercase tracking-wide">
+                <span class="h-2.5 w-2.5 rounded-full bg-current"></span>
+                <%= status[:label] %>
+              </span>
+              <svg class="h-12 w-12 text-gray-200 transition-colors group-hover:text-[#FFCC00]" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <use href="#heroicon-trophy" />
+              </svg>
+            </div>
 
-          <!-- Stats -->
-          <div class="mb-6 flex items-center gap-6 text-sm text-slate-600">
-            <div class="flex items-center gap-2">
-              <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <!-- Competition Info -->
+            <h3 class="mb-4 font-['Montserrat'] text-3xl font-bold text-black transition-colors lg:text-4xl">
+              <%= competition.title %>
+            </h3>
+
+            <div class="mb-4 flex items-center gap-2 text-sm font-semibold text-gray-700">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                 <use href="#heroicon-users" />
               </svg>
-              <span class="font-semibold"><%= competition.participants.count %></span>
-              <span>participantes</span>
+              Organizado por <%= competition.owner.name %>
             </div>
-          </div>
 
-          <!-- CTA -->
-          <%= link_to public_dashboard_competition_path(competition), class: "group/btn inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-bold text-white transition-all hover:bg-indigo-700 hover:shadow-lg" do %>
-            Ver Dashboard Público
-            <svg class="h-4 w-4 transition-transform group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-              <use href="#heroicon-arrow-right" />
-            </svg>
-          <% end %>
-        </article>
-      <% end %>
+            <p class="mb-8 line-clamp-2 text-lg leading-relaxed text-gray-700">
+              <%= truncate(competition.description, length: 140) %>
+            </p>
+
+            <!-- Stats -->
+            <div class="mb-8 flex items-center gap-2 text-gray-700">
+              <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <use href="#heroicon-users" />
+              </svg>
+              <span class="font-['Montserrat'] font-bold text-black"><%= competition.participants.count %></span>
+              <span class="text-sm">participantes inscritos</span>
+            </div>
+
+            <!-- CTA -->
+            <%= link_to public_dashboard_competition_path(competition), class: "group/btn inline-flex items-center gap-2 rounded-full bg-black px-8 py-4 font-['Montserrat'] text-sm font-bold text-[#FFCC00] transition-all hover:bg-[#FFCC00] hover:text-black hover:shadow-lg" do %>
+              Ver Dashboard Público
+              <svg class="h-5 w-5 transition-transform group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
+                <use href="#heroicon-arrow-right" />
+              </svg>
+            <% end %>
+          </article>
+        <% end %>
+      </div>
     </div>
   </section>
 <% end %>
 
 <!-- Final CTA Section -->
-<section class="relative -m-6 overflow-hidden rounded-b-3xl bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 px-6 py-20 text-white">
-  <!-- Animated background elements -->
+<section class="relative overflow-hidden bg-black px-8 py-32 text-white lg:px-16 lg:py-40">
+  <!-- Geometric circles background -->
   <div class="absolute inset-0 opacity-5">
-    <div class="absolute left-1/4 top-20 h-64 w-64 animate-pulse rounded-full bg-white blur-3xl"></div>
-    <div class="absolute right-1/4 bottom-20 h-80 w-80 animate-pulse rounded-full bg-white blur-3xl" style="animation-delay: 1.5s;"></div>
+    <div class="absolute left-1/3 top-20 h-80 w-80 rounded-full bg-[#FFCC00]"></div>
+    <div class="absolute right-1/3 bottom-20 h-96 w-96 rounded-full bg-[#FFCC00]"></div>
   </div>
 
-  <div class="relative mx-auto max-w-4xl text-center">
-    <h2 class="mb-6 text-4xl font-bold leading-tight md:text-5xl">
-      Pronto para criar sua primeira competição?
+  <div class="relative mx-auto max-w-5xl text-center">
+    <h2 class="mb-8 font-['Montserrat'] text-6xl font-bold leading-tight lg:text-7xl">
+      Pronto para criar sua<br class="hidden lg:block"/>
+      <span class="text-[#FFCC00]">primeira competição?</span>
     </h2>
-    <p class="mb-10 text-xl text-indigo-200">
-      Junte-se a centenas de organizadores que confiam em nossa plataforma para realizar competições justas e transparentes.
+
+    <p class="mb-16 text-2xl leading-relaxed text-gray-300 lg:text-3xl">
+      Junte-se a centenas de organizadores que confiam em nossa plataforma<br class="hidden lg:block"/>
+      para realizar competições justas e transparentes.
     </p>
 
-    <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
+    <div class="mb-20 flex flex-col items-center justify-center gap-5 sm:flex-row">
       <% if user_signed_in? %>
-        <%= link_to competition_builder_path, class: "group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 px-8 py-4 text-lg font-bold shadow-2xl transition-all duration-300 hover:scale-105 hover:from-indigo-400 hover:to-purple-400" do %>
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <%= link_to competition_builder_path, class: "group inline-flex items-center gap-3 rounded-full bg-[#FFCC00] px-12 py-6 font-['Montserrat'] text-xl font-bold text-black shadow-2xl shadow-[#FFCC00]/20 transition-all duration-300 hover:scale-105 hover:bg-[#FFD633]" do %>
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
             <use href="#heroicon-plus" />
           </svg>
           Criar Minha Competição
-          <svg class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <svg class="h-6 w-6 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
             <use href="#heroicon-arrow-right" />
           </svg>
         <% end %>
       <% else %>
-        <%= link_to new_user_path, class: "group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 px-8 py-4 text-lg font-bold shadow-2xl transition-all duration-300 hover:scale-105 hover:from-indigo-400 hover:to-purple-400" do %>
+        <%= link_to new_user_path, class: "group inline-flex items-center gap-3 rounded-full bg-[#FFCC00] px-12 py-6 font-['Montserrat'] text-xl font-bold text-black shadow-2xl shadow-[#FFCC00]/20 transition-all duration-300 hover:scale-105 hover:bg-[#FFD633]" do %>
           Criar Conta Grátis
-          <svg class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <svg class="h-6 w-6 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
             <use href="#heroicon-arrow-right" />
           </svg>
         <% end %>
-        <%= link_to new_session_path, class: "inline-flex items-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-8 py-4 text-lg font-semibold backdrop-blur-sm transition-all hover:bg-white/20" do %>
+        <%= link_to new_session_path, class: "inline-flex items-center gap-2 rounded-full border-2 border-white px-12 py-6 text-xl font-semibold transition-all hover:bg-white hover:text-black" do %>
           Já tenho conta
         <% end %>
       <% end %>
     </div>
 
     <!-- Trust Indicators -->
-    <div class="mt-16 grid gap-8 md:grid-cols-3">
+    <div class="grid gap-12 border-t-4 border-[#FFCC00] pt-20 lg:grid-cols-3">
       <div class="text-center">
-        <div class="mb-2 text-4xl font-bold text-indigo-300">100%</div>
-        <div class="text-sm text-indigo-200">Transparente</div>
+        <div class="mb-4 font-['Montserrat'] text-6xl font-bold text-[#FFCC00] lg:text-7xl">100%</div>
+        <div class="font-['Montserrat'] text-xl font-semibold text-white">Transparente</div>
+        <div class="mt-2 text-sm text-gray-400">Rankings justos e auditáveis</div>
       </div>
       <div class="text-center">
-        <div class="mb-2 text-4xl font-bold text-purple-300">Grátis</div>
-        <div class="text-sm text-purple-200">Para sempre</div>
+        <div class="mb-4 font-['Montserrat'] text-6xl font-bold text-[#FFCC00] lg:text-7xl">Grátis</div>
+        <div class="font-['Montserrat'] text-xl font-semibold text-white">Para sempre</div>
+        <div class="mt-2 text-sm text-gray-400">Sem taxas ou cobranças ocultas</div>
       </div>
       <div class="text-center">
-        <div class="mb-2 text-4xl font-bold text-pink-300">Fácil</div>
-        <div class="text-sm text-pink-200">De usar</div>
+        <div class="mb-4 font-['Montserrat'] text-6xl font-bold text-[#FFCC00] lg:text-7xl">Fácil</div>
+        <div class="font-['Montserrat'] text-xl font-semibold text-white">De usar</div>
+        <div class="mt-2 text-sm text-gray-400">Interface intuitiva e moderna</div>
       </div>
     </div>
   </div>
