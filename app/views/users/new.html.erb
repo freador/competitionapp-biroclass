@@ -2,15 +2,15 @@
 
 <section class="mx-auto max-w-lg space-y-6">
   <header class="text-center">
-    <p class="text-sm uppercase tracking-[0.3em] text-indigo-400">Comece agora</p>
-    <h1 class="mt-2 text-3xl font-semibold text-slate-900">Crie sua conta</h1>
-    <p class="mt-2 text-slate-500">Cadastre-se gratuitamente para criar e compartilhar competições.</p>
+    <p class="text-sm uppercase tracking-[0.3em] font-['Montserrat'] text-[#FFCC00]">Comece agora</p>
+    <h1 class="mt-2 text-3xl font-['Montserrat'] font-bold text-black">Crie sua conta</h1>
+    <p class="mt-2 text-gray-600">Cadastre-se gratuitamente para criar e compartilhar competições.</p>
   </header>
 
   <%= render "form", user: @user, cancel_path: root_path %>
 
-  <p class="mt-4 text-center text-sm text-slate-500">
+  <p class="mt-4 text-center text-sm text-gray-600">
     Já possui conta?
-    <%= link_to "Entre aqui", new_session_path, class: "font-semibold text-indigo-600 hover:text-indigo-500 transition-colors" %>
+    <%= link_to "Entre aqui", new_session_path, class: "font-['Montserrat'] font-semibold text-black hover:text-[#FFCC00] transition-colors" %>
   </p>
 </section>

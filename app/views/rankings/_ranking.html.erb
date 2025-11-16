@@ -1,18 +1,18 @@
-<div id="<%= dom_id ranking %>" class="w-full sm:w-auto my-5 space-y-5">
+<div id="<%= dom_id ranking %>" class="w-full sm:w-auto my-5 rounded-2xl border-4 border-black bg-white p-6 shadow-lg space-y-4">
   <div>
-    <strong class="block font-medium mb-1">Participant:</strong>
-    <%= ranking.participant_id %>
+    <strong class="block font-['Montserrat'] font-semibold text-black mb-1">Participant:</strong>
+    <p class="text-gray-700"><%= ranking.participant_id %></p>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Competition:</strong>
-    <%= ranking.competition_id %>
+    <strong class="block font-['Montserrat'] font-semibold text-black mb-1">Competition:</strong>
+    <p class="text-gray-700"><%= ranking.competition_id %></p>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Total score:</strong>
-    <%= ranking.total_score %>
+    <strong class="block font-['Montserrat'] font-semibold text-black mb-1">Total score:</strong>
+    <p class="text-2xl font-['Montserrat'] font-bold text-[#FFCC00]"><%= ranking.total_score %></p>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Position:</strong>
-    <%= ranking.position %>
+    <strong class="block font-['Montserrat'] font-semibold text-black mb-1">Position:</strong>
+    <p class="text-gray-700"><%= ranking.position %></p>
   </div>
 </div>

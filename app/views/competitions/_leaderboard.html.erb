@@ -1,47 +1,47 @@
-<article class="rounded border border-slate-200 bg-white p-6 shadow-sm">
+<article class="rounded-2xl border-4 border-black bg-white p-6 shadow-lg">
   <div class="flex flex-wrap items-center justify-between gap-3">
     <div>
-      <p class="text-xs uppercase tracking-widest text-slate-500">
+      <p class="text-xs uppercase tracking-widest font-['Montserrat'] text-gray-600">
         <%= competition.closed? ? "Competição encerrada" : "Ranking ao vivo" %>
       </p>
-      <h2 class="text-2xl font-semibold text-slate-900">Pontuações</h2>
+      <h2 class="text-2xl font-['Montserrat'] font-semibold text-black">Pontuações</h2>
     </div>
     <% if competition.closed? %>
-      <span class="rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold text-slate-600">Atualizado em <%= l competition.updated_at, format: :short %></span>
+      <span class="rounded-full bg-gray-200 border-2 border-black px-3 py-1 text-xs font-['Montserrat'] font-semibold text-black">Atualizado em <%= l competition.updated_at, format: :short %></span>
     <% else %>
-      <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600">Tempo real</span>
+      <span class="rounded-full bg-[#FFCC00] border-2 border-black px-3 py-1 text-xs font-['Montserrat'] font-semibold text-black">Tempo real</span>
     <% end %>
   </div>
   <% if leaderboard.any? %>
     <div class="mt-4 overflow-x-auto">
-      <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
+      <table class="min-w-full divide-y-2 divide-black text-left text-sm">
         <thead>
-          <tr class="text-xs uppercase tracking-widest text-slate-500">
+          <tr class="text-xs uppercase tracking-widest font-['Montserrat'] text-black">
             <th class="px-3 py-2">Posição</th>
             <th class="px-3 py-2">Participante</th>
             <th class="px-3 py-2">Pontuação</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-slate-100">
+        <tbody class="divide-y-2 divide-gray-200">
           <% leaderboard.each_with_index do |row, index| %>
             <% score = row.respond_to?(:total_score) ? row.total_score : row.try(:average_score) %>
             <% position = row.respond_to?(:position) ? row.position : index + 1 %>
             <% participant = row.respond_to?(:participant) ? row.participant : row %>
             <tr>
-              <td class="px-3 py-2 font-semibold text-slate-700"><%= position %>º</td>
+              <td class="px-3 py-2 font-['Montserrat'] font-semibold text-black"><%= position %>º</td>
               <td class="px-3 py-2">
-                <p class="font-semibold text-slate-800"><%= participant.display_name %></p>
+                <p class="font-['Montserrat'] font-semibold text-black"><%= participant.display_name %></p>
                 <% if participant.user&.email %>
-                  <p class="text-xs text-slate-500"><%= participant.user.email %></p>
+                  <p class="text-xs text-gray-600"><%= participant.user.email %></p>
                 <% end %>
               </td>
-              <td class="px-3 py-2 font-mono text-lg text-indigo-600"><%= number_with_precision(score, precision: 2) %></td>
+              <td class="px-3 py-2 font-mono text-lg font-bold text-[#FFCC00]"><%= number_with_precision(score, precision: 2) %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
     </div>
   <% else %>
-    <p class="mt-3 text-slate-600">Sem notas ainda. Convide jurados para começar.</p>
+    <p class="mt-3 text-gray-600">Sem notas ainda. Convide jurados para começar.</p>
   <% end %>
 </article>

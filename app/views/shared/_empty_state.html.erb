@@ -13,28 +13,28 @@
   #   - action_url: Button destination (optional)
   #   - extra_classes: Additional CSS classes (optional)
 
-  base_classes = "rounded-2xl border border-dashed border-slate-200 bg-white/50 p-8 text-center"
+  base_classes = "rounded-2xl border-4 border-dashed border-black bg-white p-8 text-center"
   container_classes = [base_classes, extra_classes].compact.join(" ")
 %>
 
 <div class="<%= container_classes %>">
   <% if defined?(icon) && icon.present? %>
-    <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
-      <svg class="h-6 w-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 border-2 border-black">
+      <svg class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
         <use href="#heroicon-<%= icon %>" />
       </svg>
     </div>
   <% end %>
 
-  <h3 class="text-lg font-semibold text-slate-900"><%= title %></h3>
+  <h3 class="text-lg font-['Montserrat'] font-semibold text-black"><%= title %></h3>
 
   <% if defined?(description) && description.present? %>
-    <p class="mt-2 text-sm text-slate-500"><%= description %></p>
+    <p class="mt-2 text-sm text-gray-600"><%= description %></p>
   <% end %>
 
   <% if defined?(action_text) && action_text.present? && defined?(action_url) && action_url.present? %>
     <div class="mt-6">
-      <%= link_to action_text, action_url, class: "inline-flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-white shadow-lg shadow-indigo-500/30 transition-all duration-200 hover:bg-indigo-500 hover:shadow-xl active:scale-95" %>
+      <%= link_to action_text, action_url, class: "inline-flex items-center gap-2 rounded-full bg-[#FFCC00] px-4 py-2.5 text-xs font-['Montserrat'] font-semibold uppercase tracking-wide text-black shadow-lg shadow-[#FFCC00]/20 transition-all duration-200 hover:bg-[#FFD633] hover:scale-105 active:scale-95" %>
     </div>
   <% end %>
 </div>

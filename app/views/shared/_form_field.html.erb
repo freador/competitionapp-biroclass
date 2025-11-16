@@ -40,9 +40,9 @@
   model = form.object
   has_errors = model.errors[field].any?
 
-  base_input_classes = "mt-2 w-full rounded-2xl border px-4 py-2.5 text-slate-900 shadow-sm transition-all duration-200"
-  normal_classes = "border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
-  error_classes = "border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 bg-rose-50"
+  base_input_classes = "mt-2 w-full rounded-2xl border-2 px-4 py-2.5 text-black shadow-sm transition-all duration-200"
+  normal_classes = "border-black focus:border-[#FFCC00] focus:ring-4 focus:ring-[#FFCC00]/20"
+  error_classes = "border-rose-600 focus:border-rose-700 focus:ring-4 focus:ring-rose-200 bg-rose-50"
 
   input_classes = [
     base_input_classes,
@@ -52,7 +52,7 @@
 %>
 
 <div class="space-y-1">
-  <%= form.label field, label_text, class: "text-sm font-semibold text-slate-700" %>
+  <%= form.label field, label_text, class: "text-sm font-['Montserrat'] font-semibold text-black" %>
 
   <% if type == "textarea" %>
     <%= form.text_area field,
@@ -101,11 +101,11 @@
   <% end %>
 
   <% if help_text.present? %>
-    <p id="<%= field %>_help" class="text-xs text-slate-500 mt-1"><%= help_text %></p>
+    <p id="<%= field %>_help" class="text-xs text-gray-600 mt-1"><%= help_text %></p>
   <% end %>
 
   <% if has_errors %>
-    <p id="<%= field %>_error" class="text-xs text-rose-600 mt-1 font-medium" role="alert">
+    <p id="<%= field %>_error" class="text-xs text-rose-700 mt-1 font-['Montserrat'] font-semibold" role="alert">
       <%= model.errors[field].to_sentence %>
     </p>
   <% end %>

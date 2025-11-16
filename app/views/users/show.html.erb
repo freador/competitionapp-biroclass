@@ -6,16 +6,16 @@
 
 <div class="mt-8 space-y-6">
   <!-- User Details Card -->
-  <article class="rounded-3xl border border-slate-100 bg-white p-6 shadow-xl">
+  <article class="rounded-2xl border-4 border-black bg-white p-10 shadow-2xl">
     <div class="flex items-start gap-6">
-      <div class="flex h-24 w-24 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white shadow-2xl">
-        <span class="text-4xl font-bold"><%= @user.name[0].upcase %></span>
+      <div class="flex h-24 w-24 flex-shrink-0 items-center justify-center rounded-2xl bg-black text-[#FFCC00] border-2 border-[#FFCC00] shadow-lg">
+        <span class="text-4xl font-['Montserrat'] font-bold"><%= @user.name[0].upcase %></span>
       </div>
 
       <div class="flex-1 space-y-4">
         <div>
-          <h2 class="text-3xl font-bold text-slate-900"><%= @user.name %></h2>
-          <p class="text-lg text-slate-500"><%= @user.email %></p>
+          <h2 class="text-3xl font-['Montserrat'] font-bold text-black"><%= @user.name %></h2>
+          <p class="text-lg text-gray-600"><%= @user.email %></p>
         </div>
 
         <div class="flex flex-wrap gap-2">
@@ -30,30 +30,30 @@
         </div>
 
         <% if @user.invitation_token.present? %>
-          <div class="rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
-            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">Token de Convite</p>
-            <code class="text-sm font-mono text-slate-900"><%= @user.invitation_token %></code>
+          <div class="rounded-2xl border-2 border-black bg-white p-4">
+            <p class="text-xs font-['Montserrat'] font-semibold uppercase tracking-wide text-gray-600 mb-1">Token de Convite</p>
+            <code class="text-sm font-mono text-black"><%= @user.invitation_token %></code>
           </div>
         <% end %>
       </div>
     </div>
 
     <!-- Actions -->
-    <div class="mt-6 flex flex-wrap gap-3 pt-6 border-t border-slate-200">
-      <%= link_to edit_user_path(@user), class: "inline-flex items-center gap-2 rounded-full border border-slate-300 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:border-slate-400 active:scale-95" do %>
+    <div class="mt-6 flex flex-wrap gap-3 pt-6 border-t-2 border-black">
+      <%= link_to edit_user_path(@user), class: "inline-flex items-center gap-2 rounded-full border-2 border-black px-5 py-2.5 text-xs font-['Montserrat'] font-semibold uppercase tracking-wide text-black transition-all duration-200 hover:bg-black hover:text-[#FFCC00] hover:scale-105 active:scale-95" do %>
         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
           <use href="#heroicon-pencil" />
         </svg>
         Editar usuário
       <% end %>
-      <%= link_to users_path, class: "inline-flex items-center gap-2 rounded-full border border-slate-300 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-slate-700 transition-all duration-200 hover:bg-slate-50 hover:border-slate-400 active:scale-95" do %>
+      <%= link_to users_path, class: "inline-flex items-center gap-2 rounded-full border-2 border-black px-5 py-2.5 text-xs font-['Montserrat'] font-semibold uppercase tracking-wide text-black transition-all duration-200 hover:bg-black hover:text-[#FFCC00] hover:scale-105 active:scale-95" do %>
         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
           <use href="#heroicon-arrow-right" />
         </svg>
         Voltar para lista
       <% end %>
       <% unless @user == current_user %>
-        <%= button_to user_path(@user), method: :delete, form: { data: { turbo_confirm: "Tem certeza que deseja excluir este usuário?" } }, class: "inline-flex items-center gap-2 rounded-full border border-rose-200 bg-rose-50 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-rose-600 transition-all duration-200 hover:bg-rose-100 hover:border-rose-300 active:scale-95" do %>
+        <%= button_to user_path(@user), method: :delete, form: { data: { turbo_confirm: "Tem certeza que deseja excluir este usuário?" } }, class: "inline-flex items-center gap-2 rounded-full border-2 border-rose-600 bg-rose-50 px-5 py-2.5 text-xs font-['Montserrat'] font-semibold uppercase tracking-wide text-rose-600 transition-all duration-200 hover:bg-rose-100 hover:border-rose-700 active:scale-95" do %>
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
             <use href="#heroicon-trash" />
           </svg>
@@ -67,21 +67,21 @@
   <div class="grid gap-6 md:grid-cols-2">
     <!-- Owned Competitions -->
     <% if @user.owned_competitions.any? %>
-      <article class="rounded-3xl border border-slate-100 bg-white p-6 shadow-xl">
+      <article class="rounded-2xl border-4 border-black bg-white p-6 shadow-lg">
         <header class="mb-4 flex items-center justify-between">
           <div>
-            <p class="text-xs uppercase tracking-[0.3em] text-indigo-400">Organizador</p>
-            <h2 class="text-xl font-semibold text-slate-900">Competições Criadas</h2>
+            <p class="text-xs uppercase tracking-[0.3em] font-['Montserrat'] text-[#FFCC00]">Organizador</p>
+            <h2 class="text-xl font-['Montserrat'] font-semibold text-black">Competições Criadas</h2>
           </div>
-          <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600">
+          <span class="rounded-full bg-[#FFCC00] border-2 border-black px-3 py-1 text-xs font-['Montserrat'] font-semibold text-black">
             <%= @user.owned_competitions.count %>
           </span>
         </header>
         <div class="space-y-2">
           <% @user.owned_competitions.limit(5).each do |competition| %>
-            <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3 text-sm">
-              <p class="font-semibold text-slate-900"><%= competition.title %></p>
-              <p class="text-xs text-slate-500"><%= competition.participants.count %> participantes</p>
+            <div class="rounded-xl border-2 border-black bg-white p-3 text-sm hover:bg-[#FFCC00]/10 transition-colors">
+              <p class="font-['Montserrat'] font-semibold text-black"><%= competition.title %></p>
+              <p class="text-xs text-gray-600"><%= competition.participants.count %> participantes</p>
             </div>
           <% end %>
         </div>
@@ -90,23 +90,23 @@
 
     <!-- Judge Competitions -->
     <% if @user.judged_competitions.any? %>
-      <article class="rounded-3xl border border-slate-100 bg-white p-6 shadow-xl">
+      <article class="rounded-2xl border-4 border-black bg-white p-6 shadow-lg">
         <header class="mb-4 flex items-center justify-between">
           <div>
-            <p class="text-xs uppercase tracking-[0.3em] text-purple-400">Jurado</p>
-            <h2 class="text-xl font-semibold text-slate-900">Avaliações Realizadas</h2>
+            <p class="text-xs uppercase tracking-[0.3em] font-['Montserrat'] text-[#FFCC00]">Jurado</p>
+            <h2 class="text-xl font-['Montserrat'] font-semibold text-black">Avaliações Realizadas</h2>
           </div>
-          <span class="rounded-full bg-purple-50 px-3 py-1 text-xs font-semibold text-purple-600">
+          <span class="rounded-full bg-[#FFCC00] border-2 border-black px-3 py-1 text-xs font-['Montserrat'] font-semibold text-black">
             <%= @user.rankings.count %>
           </span>
         </header>
         <div class="space-y-2">
           <% @user.rankings.limit(5).each do |ranking| %>
-            <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-3 text-sm">
-              <p class="font-semibold text-slate-900"><%= ranking.participant.name %></p>
+            <div class="rounded-xl border-2 border-black bg-white p-3 text-sm hover:bg-[#FFCC00]/10 transition-colors">
+              <p class="font-['Montserrat'] font-semibold text-black"><%= ranking.participant.name %></p>
               <div class="mt-1 flex items-center justify-between">
-                <p class="text-xs text-slate-500"><%= ranking.competition.title %></p>
-                <p class="font-bold text-indigo-600"><%= ranking.score %> pts</p>
+                <p class="text-xs text-gray-600"><%= ranking.competition.title %></p>
+                <p class="font-['Montserrat'] font-bold text-[#FFCC00]"><%= ranking.score %> pts</p>
               </div>
             </div>
           <% end %>

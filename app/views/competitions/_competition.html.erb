@@ -1,22 +1,22 @@
-<div id="<%= dom_id competition %>" class="w-full sm:w-auto my-5 space-y-5">
+<div id="<%= dom_id competition %>" class="w-full sm:w-auto my-5 rounded-2xl border-4 border-black bg-white p-6 shadow-lg space-y-4">
   <div>
-    <strong class="block font-medium mb-1">Title:</strong>
-    <%= competition.title %>
+    <strong class="block font-['Montserrat'] font-semibold text-black mb-1">Title:</strong>
+    <p class="text-gray-700"><%= competition.title %></p>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Description:</strong>
-    <%= competition.description %>
+    <strong class="block font-['Montserrat'] font-semibold text-black mb-1">Description:</strong>
+    <p class="text-gray-700"><%= competition.description %></p>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Rules:</strong>
-    <%= competition.rules %>
+    <strong class="block font-['Montserrat'] font-semibold text-black mb-1">Rules:</strong>
+    <p class="text-gray-700"><%= competition.rules %></p>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Status:</strong>
-    <%= competition.status %>
+    <strong class="block font-['Montserrat'] font-semibold text-black mb-1">Status:</strong>
+    <span class="inline-block px-3 py-1 rounded-full border-2 border-black bg-[#FFCC00] font-['Montserrat'] font-semibold text-black text-sm"><%= competition.status %></span>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Owner:</strong>
-    <%= competition.owner_id %>
+    <strong class="block font-['Montserrat'] font-semibold text-black mb-1">Owner:</strong>
+    <p class="text-gray-700"><%= competition.owner_id %></p>
   </div>
 </div>

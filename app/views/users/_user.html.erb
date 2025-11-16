@@ -1,18 +1,18 @@
-<div id="<%= dom_id user %>" class="w-full sm:w-auto my-5 space-y-5">
+<div id="<%= dom_id user %>" class="w-full sm:w-auto my-5 rounded-2xl border-2 border-black bg-white p-6 shadow-lg space-y-4">
   <div>
-    <strong class="block font-medium mb-1">Name:</strong>
-    <%= user.name %>
+    <strong class="block font-['Montserrat'] font-semibold text-black mb-1">Name:</strong>
+    <p class="text-gray-700"><%= user.name %></p>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Email:</strong>
-    <%= user.email %>
+    <strong class="block font-['Montserrat'] font-semibold text-black mb-1">Email:</strong>
+    <p class="text-gray-700"><%= user.email %></p>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Role:</strong>
-    <%= user.role.titleize %>
+    <strong class="block font-['Montserrat'] font-semibold text-black mb-1">Role:</strong>
+    <p class="text-gray-700"><%= user.role.titleize %></p>
   </div>
   <div>
-    <strong class="block font-medium mb-1">Invitation token:</strong>
-    <%= user.invitation_token %>
+    <strong class="block font-['Montserrat'] font-semibold text-black mb-1">Invitation token:</strong>
+    <code class="block text-sm font-mono text-black bg-[#FFCC00]/20 p-2 rounded"><%= user.invitation_token %></code>
   </div>
 </div>

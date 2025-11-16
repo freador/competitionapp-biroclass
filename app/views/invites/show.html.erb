@@ -1,50 +1,50 @@
 <section class="mx-auto max-w-2xl space-y-8">
   <header class="text-center">
-    <p class="text-xs uppercase tracking-[0.4em] text-indigo-400">Convite recebido</p>
-    <h1 class="mt-2 text-3xl font-semibold text-slate-900"><%= @competition.title %></h1>
-    <p class="mt-2 text-slate-500">Você foi convidado para participar como <strong class="text-slate-900"><%= @invitable.is_a?(CompetitionJudge) ? "jurado" : "participante" %></strong>.</p>
+    <p class="text-xs uppercase tracking-[0.4em] font-['Montserrat'] text-[#FFCC00]">Convite recebido</p>
+    <h1 class="mt-2 text-3xl font-['Montserrat'] font-bold text-black"><%= @competition.title %></h1>
+    <p class="mt-2 text-gray-600">Você foi convidado para participar como <strong class="text-black"><%= @invitable.is_a?(CompetitionJudge) ? "jurado" : "participante" %></strong>.</p>
   </header>
 
-  <article class="rounded-3xl border border-slate-100 bg-white/95 p-8 shadow-xl">
-    <div class="space-y-4 text-sm text-slate-600">
-      <p><strong>Organizador:</strong> <%= @competition.owner.name %></p>
+  <article class="rounded-2xl border-4 border-black bg-white p-10 shadow-2xl">
+    <div class="space-y-4 text-sm text-gray-700">
+      <p><strong class="font-['Montserrat'] text-black">Organizador:</strong> <%= @competition.owner.name %></p>
       <% if @invitable.respond_to?(:email) && @invitable.email.present? %>
-        <p><strong>Email do convite:</strong> <%= @invitable.email %></p>
+        <p><strong class="font-['Montserrat'] text-black">Email do convite:</strong> <%= @invitable.email %></p>
       <% end %>
-      <p class="text-slate-500">Aceite o convite para acessar o dashboard privado e enviar notas.</p>
+      <p class="text-gray-600">Aceite o convite para acessar o dashboard privado e enviar notas.</p>
     </div>
 
     <% if user_signed_in? %>
-      <div class="mt-6 rounded-2xl border border-indigo-100 bg-indigo-50 px-5 py-4 text-sm text-indigo-900">
-        Conectado como <strong><%= current_user.email %></strong>.
+      <div class="mt-6 rounded-2xl border-2 border-black bg-[#FFCC00]/10 px-5 py-4 text-sm text-black">
+        Conectado como <strong class="font-['Montserrat']"><%= current_user.email %></strong>.
       </div>
-      <%= button_to "Aceitar convite", invite_path(token: params[:token]), method: :patch, class: "mt-4 w-full rounded-full bg-indigo-600 px-4 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-500" %>
+      <%= button_to "Aceitar convite", invite_path(token: params[:token]), method: :patch, class: "mt-4 w-full rounded-full bg-[#FFCC00] px-4 py-3 text-sm font-['Montserrat'] font-semibold uppercase tracking-wide text-black shadow-lg shadow-[#FFCC00]/20 transition hover:bg-[#FFD633] hover:scale-105" %>
     <% else %>
       <%= form_with model: @user, url: invite_path(token: params[:token]), method: :patch, class: "mt-6 space-y-4" do |form| %>
         <% if @user.errors.any? %>
-          <div class="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+          <div class="rounded-xl border-2 border-rose-600 bg-rose-50 px-4 py-3 text-sm text-rose-800">
             <%= @user.errors.full_messages.to_sentence %>
           </div>
         <% end %>
         <div>
-          <%= form.label :name, "Nome completo", class: "text-sm font-semibold text-slate-700" %>
-          <%= form.text_field :name, required: true, class: "mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2.5 text-slate-900 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" %>
+          <%= form.label :name, "Nome completo", class: "text-sm font-['Montserrat'] font-semibold text-black" %>
+          <%= form.text_field :name, required: true, class: "mt-2 w-full rounded-2xl border-2 border-black px-4 py-2.5 text-black shadow-sm focus:border-[#FFCC00] focus:ring-4 focus:ring-[#FFCC00]/20" %>
         </div>
         <div>
-          <%= form.label :email, class: "text-sm font-semibold text-slate-700" %>
-          <%= form.email_field :email, required: true, class: "mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2.5 text-slate-900 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" %>
+          <%= form.label :email, class: "text-sm font-['Montserrat'] font-semibold text-black" %>
+          <%= form.email_field :email, required: true, class: "mt-2 w-full rounded-2xl border-2 border-black px-4 py-2.5 text-black shadow-sm focus:border-[#FFCC00] focus:ring-4 focus:ring-[#FFCC00]/20" %>
         </div>
         <div>
-          <%= form.label :password, class: "text-sm font-semibold text-slate-700" %>
-          <%= form.password_field :password, required: true, class: "mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2.5 text-slate-900 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" %>
+          <%= form.label :password, class: "text-sm font-['Montserrat'] font-semibold text-black" %>
+          <%= form.password_field :password, required: true, class: "mt-2 w-full rounded-2xl border-2 border-black px-4 py-2.5 text-black shadow-sm focus:border-[#FFCC00] focus:ring-4 focus:ring-[#FFCC00]/20" %>
         </div>
         <div>
-          <%= form.label :password_confirmation, class: "text-sm font-semibold text-slate-700" %>
-          <%= form.password_field :password_confirmation, required: true, class: "mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2.5 text-slate-900 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" %>
+          <%= form.label :password_confirmation, class: "text-sm font-['Montserrat'] font-semibold text-black" %>
+          <%= form.password_field :password_confirmation, required: true, class: "mt-2 w-full rounded-2xl border-2 border-black px-4 py-2.5 text-black shadow-sm focus:border-[#FFCC00] focus:ring-4 focus:ring-[#FFCC00]/20" %>
         </div>
-        <%= form.submit "Criar conta e aceitar", class: "w-full rounded-full bg-indigo-600 px-4 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-500" %>
+        <%= form.submit "Criar conta e aceitar", class: "w-full rounded-full bg-[#FFCC00] px-4 py-3 text-sm font-['Montserrat'] font-semibold uppercase tracking-wide text-black shadow-lg shadow-[#FFCC00]/20 transition hover:bg-[#FFD633] hover:scale-105" %>
       <% end %>
-      <p class="mt-4 text-center text-xs uppercase tracking-[0.3em] text-slate-400">Já possui conta? Entre e abra este mesmo link.</p>
+      <p class="mt-4 text-center text-xs uppercase tracking-[0.3em] font-['Montserrat'] text-gray-500">Já possui conta? Entre e abra este mesmo link.</p>
     <% end %>
   </article>
 </section>
