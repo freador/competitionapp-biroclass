@@ -25,5 +25,8 @@ module CompetitionApp
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.assets.paths << Rails.root.join("app/assets/brandguide")
+
+    # Keep background jobs disabled so Solid Queue/Active Job workers stay off.
+    config.active_job.queue_adapter = :disabled
   end
 end

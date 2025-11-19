@@ -56,8 +56,7 @@ Rails.application.configure do
   # config.active_job.queue_adapter = :solid_queue
   # config.solid_queue.connects_to = { database: { writing: :queue } }
   #
-  # Configuração atual: jobs processados síncronamente (sem workers separados)
-  config.active_job.queue_adapter = :async
+  # Configuração atual: jobs são ignorados via adapter :disabled (ver config/application.rb)
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
